@@ -10,5 +10,7 @@ package programdatagenerator.simulationdata;
  * @author Administrator
  */
 public class Lot {
+    private String LotID=null;
+    
     
 }
