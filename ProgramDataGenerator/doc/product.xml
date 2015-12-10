@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<products>
+    <product name ="Trinity">
+        <TestProgram>Trinity</TestProgram>
+        <ProgramVersion>
+            <Value>1.2</Value>
+            <Value>1.3</Value>
+            <Value>1.4</Value>
+            <Value>1.5</Value>
+        </ProgramVersion>
+        <TestCode>
+            <Value>TN_ABCDEF</Value>
+            <Value>TN_AACDEE</Value>
+            <Value>TN_ADCDEF</Value>
+            <Value>TN_AFCDEF</Value>
+        </TestCode>
+	<MFGStep>TN-8888</MFGStep>
+	<Device>TN-8888D</Device>
+	<Package>
+            <Value>TN_UOF111</Value>
+            <Value>TN_UOF222</Value>
+            <Value>TN_UOF333</Value>
+        </Package>
+	<Facility>SUZHOU</Facility>
+        <LotCnt>100</LotQty> <!--similation lot count-->
+        <LotQty>1000</LotQty><!--simulation unit qty per lot-->
+        <SiteCnt>2</SiteCnt>
+    </product>
+    <product name ="Styx">
+        <TestProgram>Styx</TestProgram>
+        <ProgramVersion>
+            <Value>2.2</Value>
+            <Value>2.3</Value>
+            <Value>2.4</Value>
+            <Value>2.5</Value>
+        </ProgramVersion>
+        <TestCode>
+            <Value>SX_ABCDEF</Value>
+            <Value>SX_AACDEE</Value>
+            <Value>SX_ADCDEF</Value>
+            <Value>SX_AFCDEF</Value>
+        </TestCode>
+	<MFGStep>SX-6666</MFGStep>
+	<Device>SX-8888D</Device>
+	<Package>
+            <Value>SX_UOF111</Value>
+            <Value>SX_UOF222</Value>
+            <Value>SX_UOF333</Value>
+        </Package>
+	<Facility>SUZHOU</Facility>
+        <LotCnt>100</LotQty> <!--similation lot count-->
+        <LotQty>1000</LotQty><!--simulation unit qty per lot-->
+        <SiteCnt>1</SiteCnt>
+    </product>
+    <product name ="Kavari">
+        <TestProgram>Kavari</TestProgram>
+        <ProgramVersion>
+            <Value>3.2</Value>
+            <Value>3.3</Value>
+            <Value>3.4</Value>
+            <Value>3.5</Value>
+        </ProgramVersion>
+        <TestCode>
+            <Value>KV_ABCDEF</Value>
+            <Value>KV_AACDEE</Value>
+            <Value>KV_ADCDEF</Value>
+            <Value>KV_AFCDEF</Value>
+        </TestCode>
+	<MFGStep>KV-6666</MFGStep>
+	<Device>KV-8888D</Device>
+	<Package>
+            <Value>KV_UOF111</Value>
+            <Value>KV_UOF222</Value>
+            <Value>KV_UOF333</Value>
+        </Package>
+	<Facility>SUZHOU</Facility>
+        <LotCnt>100</LotQty> <!--similation lot count-->
+        <LotQty>1000</LotQty><!--simulation unit qty per lot-->
+        <SiteCnt>4</SiteCnt>
+    </product>
+    
+</products>

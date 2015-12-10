@@ -1,0 +1,236 @@
+<Lot>
+	<!--total 21 element for LotInfo-->
+	<LotInfo>
+		<!--TestProgram, ProgramVersion, TestCode, MFGStep, Device, Package, Facility-->
+		<!--those are general lot information-->
+		<LotID>W123456</LotID>
+		<TestProgram>SX1SP1XXCB1FFS0</TestProgram>
+		<ProgramVersion>1.3</ProgramVersion>
+		<TestCode>AABBCC</TestCode>
+		<MFGStep>6210</MFGStep>
+		<Device>8888D66</Device>
+		<Package>UOF433</Package>
+		<Facility>SUZHOU</Facility>
+		<!--
+		LotQty, FinalYield, TotalPass, TotalFail data from Camstar
+		-->
+		<LotQty>1000</LotQty> 
+		<FinalYield>90%</FinalYield>
+		<TotalPass>900</TotalPass>
+		<TotalFail>100</TotalFail>
+		<!--
+		FTR, FTRD, UPH, AveIndexTime, AveTestTime, AvePassTestTime, AveFailTestTime
+		LoadingTime, WaitingTime 
+		those data are coming from post processing after the whole lot is completed
+		-->
+		<FTR>85%</FTR>
+		<FTRD>5%</FTRD>
+		<UPH>100</UPH>
+		<AveIndexTime>2.35</AveIndexTime>
+		<AveTestTime>12.02</AveTestTime>
+		<AvePassTestTime>13.09</AvePassTestTime>
+		<AveFailTestTime>12.22</AveFailTestTime>
+		<LoadingTime>00:09:04</LoadingTime>
+		<WaitingTime>00:00:09</WaitingTime>
+	</LotInfo>
+	<HardBinSummary>
+		<!--depends on how may Hard bin-->
+		<Type>Final</Type><!--Fresh or Final-->
+		<HardBin>
+			<BinNo>1</BinNo>
+			<HardBinDesc>pass good bin1</HardBinDesc>
+			<BinType>P</BinType>
+			<TOtalQty>500</TOtalQty>
+			<!--depends on how many testers here-->
+			<Tester>
+					<TesterName>suzate01</TesterName>
+					<Qty>300</Qty>
+			</Tester>
+			<Tester>
+					<TesterName>suzate02</TesterName>
+					<Qty>200</Qty>
+			</Tester>
+		</HardBin>
+		<HardBin>
+			<BinNO>2</BinNO>
+			<HardBinDesc>good device bin2</HardBinDesc>
+			<BinType>P</BinType>
+			<TOtalQty>400</TOtalQty>
+			<!--depends on how many testers here-->
+			<Tester>
+					<TesterName>suzate01</TesterName>
+					<Qty>200</Qty>
+			</Tester>
+			<Tester>
+					<TesterName>suzate02</TesterName>
+					<Qty>200</Qty>
+			</Tester>
+		</HardBin>
+		<HardBin>
+			<BinNO>15</BinNO>
+			<HardBinDesc>bad device bin15</HardBinDesc>
+			<BinType>F</BinType>
+			<TOtalQty>100</TOtalQty>
+			<!--depends on how many testers here-->
+			<Tester>
+					<TesterName>suzate01</TesterName>
+					<Qty>20</Qty>
+			</Tester>
+			<Tester>
+					<TesterName>suzate02</TesterName>
+					<Qty>80</Qty>
+			</Tester>
+		</HardBin>
+	</HardBinSummary>
+	
+	<SoftBinSummary>
+		<!--depends on how may soft bin-->
+		<Type>Final</Type><!--Fresh or Final-->
+		<SoftBin>
+			<BinNo>1</BinNo>
+			<SoftBinDesc>pass softbin1</SoftBinDesc>
+			<BinType>P</BinType>
+			<TOtalQty>600</TOtalQty>
+			<!--depends on how many testers here-->
+			<Tester>
+					<TesterName>suzate01</TesterName>
+					<Qty>300</Qty>
+			</Tester>
+			<Tester>
+					<TesterName>suzate02</TesterName>
+					<Qty>300</Qty>
+			</Tester>
+		</SoftBin>
+		<SoftBin>
+			<BinNo>2</BinNo>
+			<SoftBinDesc>pass soft bin2</SoftBinDesc>
+			<BinType>P</BinType>
+			<TOtalQty>300</TOtalQty>
+			<!--depends on how many testers here-->
+			<Tester>
+					<TesterName>suzate01</TesterName>
+					<Qty>200</Qty>
+			</Tester>
+			<Tester>
+					<TesterName>suzate02</TesterName>
+					<Qty>100</Qty>
+			</Tester>
+		</SoftBin>
+		<SoftBin>
+			<BinNo>500</BinNo>
+			<SoftBinDesc>fail soft bin500</SoftBinDesc>
+			<BinType>F</BinType>
+			<TOtalQty>100</TOtalQty>
+			<!--depends on how many testers here-->
+			<Tester>
+					<TesterName>suzate01</TesterName>
+					<Qty>20</Qty>
+			</Tester>
+			<Tester>
+					<TesterName>suzate02</TesterName>
+					<Qty>80</Qty>
+			</Tester>
+		</SoftBin>
+	</SoftBinSummary>
+	<SubLot>
+		<SubLotInfo>
+			<Tester>suzate01</Tester>
+			<Facility>suzhou</Facility>
+			<LotOpen>150909-090909</LotOpen>
+			<LotInitEnd>150909-091010</LotInitEnd>
+			<TotalTestedUnits>200</TotalTestedUnits>
+			<TotalPass>180</TotalPass>
+			<TotalFial>20</TotalFial>
+			<FUTA>150909-090920</FUTA>
+			<LUAT>150909-202020</LUAT>
+			<ElapsedTime>43:30:23</ElapsedTime>
+			<PeripheralID>handlerID</PeripheralID>
+			<UPH>200</UPH>
+			<AveIndexTime>2.3</AveIndexTime>
+			<AveTestTime>3.0</AveTestTime>
+			<AvePassTestTime>12,9</AvePassTestTime>
+			<AveFailTestTime>3.9</AveFailTestTime>	
+			<ValidLot>Y</ValidLot> <!--this is a valid lot or not-->
+		</SubLotInfo>
+		<HardBinSummary>
+			<HardBin>
+				<BinNo>1</BinNo>
+				<HardBinDesc>pass hard bin1</HardBinDesc>
+				<BinType>P</BinType>
+				<TOtalQty>100</TOtalQty>
+			</HardBin>
+			<HardBin>
+				<BinNo>2</BinNo>
+				<HardBinDesc>pass hard bin2</HardBinDesc>
+				<BinType>P</BinType>
+				<TOtalQty>80</TOtalQty>
+			</HardBin>
+			
+			<HardBin>
+				<BinNo>3</BinNo>
+				<HardBinDesc>fail hard bin3</HardBinDesc>
+				<BinType>F</BinType>
+				<TOtalQty>20</TOtalQty>
+			</HardBin>
+		
+		</HardBinSummary>
+		
+		<SoftBinSummary>
+			<SoftBin>
+				<BinNo>1</BinNo>
+				<SoftBinDesc>pass soft bin1</SoftBinDesc>
+				<BinType>P</BinType>
+				<TOtalQty>100</TOtalQty>
+			</SoftBin>
+			<SoftBin>
+				<BinNo>2</BinNo>
+				<SoftBinDesc>pass soft bin2</SoftBinDesc>
+				<BinType>P</BinType>
+				<TOtalQty>80</TOtalQty>
+			</SoftBin>
+			
+			<SoftBin>
+				<BinNo>500</BinNo>
+				<SoftBinDesc>fail soft bin500</SoftBinDesc>
+				<BinType>F</BinType>
+				<TOtalQty>20</TOtalQty>
+			</SoftBin>
+		
+		</SoftBinSummary>
+		<UnitData>
+			<Unit>
+				<UnitNo>1</UnitNo>
+				<UnitID>abcd11</UnitID>
+				<DIBID>DibID</DIBID><!--stands for SLT Tray -->
+				<Site>0</Site><!--stands for SLT position-->
+				<Result>P</Result>
+				<HardBin>1</HardBin>
+				<HardBinDesc>pass hard bin1</HardBinDesc>
+				<SoftBin>1</SoftBin>
+				<SoftBinDesc>pass soft bin1</SoftBinDesc>
+				<IndexTime>2.2</IndexTime>
+				<OverHeadTime>2.0</OverHeadTime>
+				<StartTestTime>78787878</StartTestTime>
+				<EndTestTime>6767676767</EndTestTime>
+				<Insertion>1</Insertion>
+			</Unit>
+			<Unit>
+				<UnitNo>2</UnitNo>
+				<UnitID>abcd12</UnitID>
+				<DIBID>DibID</DIBID><!--stands for SLT Tray -->
+				<Site>0</Site><!--stands for SLT position-->
+				<Result>P</Result>
+				<HardBin>1</HardBin>
+				<HardBinDesc>pass hard bin1</HardBinDesc>
+				<SoftBin>1</SoftBin>
+				<SoftBinDesc>pass soft bin1</SoftBinDesc>
+				<IndexTime>2.2</IndexTime>
+				<OverHeadTime>2.0</OverHeadTime>
+				<StartTestTime>78787878</StartTestTime>
+				<EndTestTime>6767676767</EndTestTime>
+				<Insertion>1</Insertion>
+			</Unit>
+		</UnitData>
+	</SubLot>
+	
+	</Lot>
