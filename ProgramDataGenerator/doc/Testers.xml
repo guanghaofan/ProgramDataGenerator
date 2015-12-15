@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<Testers>
+    <Tester>"SUZATE_01"</Tester>
+    <Tester>"SUZATE_02"</Tester>
+    <Tester>"SUZATE_03"</Tester>
+    <Tester>"SUZATE_04"</Tester>
+    <Tester>"SUZATE_05"</Tester>
+    <Tester>"SUZATE_06"</Tester>
+    <Tester>"SUZATE_07"</Tester>
+    <Tester>"SUZATE_08"</Tester>
+    <Tester>"SUZATE_09"</Tester>
+    <Tester>"SUZATE_10"</Tester>
+</Testers>

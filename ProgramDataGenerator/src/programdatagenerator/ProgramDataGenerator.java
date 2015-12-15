@@ -5,6 +5,8 @@
  */
 package programdatagenerator;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -17,6 +19,8 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import programdatagenerator.simulationdata.Product;
+import programdatagenerator.util.XMLRead;
 
 /**
  *
@@ -29,11 +33,21 @@ public class ProgramDataGenerator extends Application {
     public final Label Location = new Label("Location");
 //    public final String[] myTesters = new String[]{"all","sapphire","verigy","SLT","HST","hontech"};
     public final ChoiceBox tester= new ChoiceBox(FXCollections.observableArrayList("ALL","SAPPHIRE","VERIGY","SLT","HST","HONTECH"));
+    public List<Product> Products= new ArrayList<>();
     
     
     
     @Override
     public void start(Stage primaryStage) {
+        Products= XMLRead.getProducts();
+        if(Products!=null){
+            for(Product myProduct: Products){
+
+
+            }
+        }
+        
+        
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
         btn.setOnAction(new EventHandler<ActionEvent>() {

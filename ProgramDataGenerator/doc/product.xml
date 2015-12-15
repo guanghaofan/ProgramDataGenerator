@@ -9,6 +9,7 @@ and open the template in the editor.
 <products>
     <product name ="Trinity">
         <TestProgram>Trinity</TestProgram>
+        <ShortName>TN</ShortName>
         <ProgramVersion>
             <Value>1.2</Value>
             <Value>1.3</Value>
@@ -21,7 +22,7 @@ and open the template in the editor.
             <Value>TN_ADCDEF</Value>
             <Value>TN_AFCDEF</Value>
         </TestCode>
-	<MFGStep>TN-8888</MFGStep>
+	<MFGStep>TN-6666</MFGStep>
 	<Device>TN-8888D</Device>
 	<Package>
             <Value>TN_UOF111</Value>
@@ -29,12 +30,13 @@ and open the template in the editor.
             <Value>TN_UOF333</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
-        <LotCnt>100</LotQty> <!--similation lot count-->
+        <LotCnt>4</LotCnt> <!--similation lot count-->
         <LotQty>1000</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>2</SiteCnt>
     </product>
     <product name ="Styx">
         <TestProgram>Styx</TestProgram>
+        <ShortName>SX</ShortName>
         <ProgramVersion>
             <Value>2.2</Value>
             <Value>2.3</Value>
@@ -55,12 +57,13 @@ and open the template in the editor.
             <Value>SX_UOF333</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
-        <LotCnt>100</LotQty> <!--similation lot count-->
+        <LotCnt>10</LotCnt> <!--similation lot count-->
         <LotQty>1000</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>1</SiteCnt>
     </product>
     <product name ="Kavari">
         <TestProgram>Kavari</TestProgram>
+        <ShortName>KV</ShortName>
         <ProgramVersion>
             <Value>3.2</Value>
             <Value>3.3</Value>
@@ -81,7 +84,7 @@ and open the template in the editor.
             <Value>KV_UOF333</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
-        <LotCnt>100</LotQty> <!--similation lot count-->
+        <LotCnt>10</LotCnt> <!--similation lot count-->
         <LotQty>1000</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>4</SiteCnt>
     </product>
