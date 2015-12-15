@@ -97,9 +97,9 @@ public class Product {
                             }
                             else
                                 LotID=this.ShortName + String.valueOf(LotNo);
-                            this.RandomLot.add(new Lot(LotID, this.ProductName, this.TestProgram,
+                            this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
                             this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
-                            this.Package.get(k),this.Facility,this.getLotQty(), this.SiteCnt));
+                            this.Package.get(k),this.Facility,this.getLotQty(), this.SiteCnt)));
                             LotNo++;
                         }
                     }
@@ -226,7 +226,7 @@ public class Product {
     
     public void printRandomLotHeadInfo(){
         for(Lot lot: this.RandomLot){
-            lot.printLotHead();
+            lot.getLotHeadInfo().printLotHead();
         }
     }
  
