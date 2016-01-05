@@ -28,6 +28,8 @@ public class Product {
     private String TestProgram=null;
     private List<String> ProgramVersion= new ArrayList<>();
     private List<String> TestCode = new ArrayList<>();
+    private List<String> Handler = new ArrayList<>();
+    private List<String> DIB = new ArrayList<>();
     private String MFGStep=null;
     private String Device=null;
     private List<String> Package= new ArrayList<>();
@@ -68,7 +70,13 @@ public class Product {
                             break;   
                         case "Package":
                             readValue(this.Package,node);
-                            break;          
+                            break;
+                        case "Handler":
+                            readValue(this.Handler,node);
+                            break;
+                        case "DIB":
+                            readValue(this.DIB,node);
+                            break;    
                         case "Facility":
                             this.Facility=node.getText();
                             break;    
@@ -89,18 +97,26 @@ public class Product {
                 for(int j=0; j!= this.TestCode.size();j++){
                     for(int k=0; k!= this.Package.size();k++){
                         for(int r=0; r!= this.LotCnt;r++){
-                            if(LotNo<10){
-                                LotID=this.ShortName+ "00" + String.valueOf(LotNo);
+                            for(int handlerCnt=0;handlerCnt!= this.Handler.size();handlerCnt++ ){
+                                for(int DIBCnt=0;DIBCnt!= this.DIB.size();DIBCnt++ ){
+                                    if(LotNo<10){
+                                        LotID=this.ShortName+ "00" + String.valueOf(LotNo);
+                                    }
+                                    else if(LotNo<99){
+                                        LotID=this.ShortName+ "0" + String.valueOf(LotNo);
+                                    }
+                                    else
+                                        LotID=this.ShortName + String.valueOf(LotNo);
+                                    
+                                    this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
+                                    this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
+                                    this.Package.get(k),this.Facility,this.getLotQty(), this.SiteCnt,this.DIB.get(DIBCnt),
+                                    this.Handler.get(handlerCnt))));
+                                    LotNo++;
+                                    
+                                }
                             }
-                            else if(LotNo<99){
-                                LotID=this.ShortName+ "0" + String.valueOf(LotNo);
-                            }
-                            else
-                                LotID=this.ShortName + String.valueOf(LotNo);
-                            this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
-                            this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
-                            this.Package.get(k),this.Facility,this.getLotQty(), this.SiteCnt)));
-                            LotNo++;
+                            
                         }
                     }
                 }
@@ -206,7 +222,7 @@ public class Product {
         return RandomLot;
     }
     
-    public void readValue(List<String> list, Element element){
+    private void readValue(List<String> list, Element element){
         List<Element> nodes= element.elements();
         if(!nodes.isEmpty()){
             for(Element node: nodes){
@@ -216,7 +232,7 @@ public class Product {
         }
             
     }
-    public void printArray(List<String> list, String key){
+    private void printArray(List<String> list, String key){
         System.out.println(key +" :" );
         for(String temp: list){
             System.out.println("  "+ temp);
@@ -224,7 +240,7 @@ public class Product {
         
     }
     
-    public void printRandomLotHeadInfo(){
+    private void printRandomLotHeadInfo(){
         for(Lot lot: this.RandomLot){
             lot.getLotHeadInfo().printLotHead();
         }
@@ -242,6 +258,9 @@ public class Product {
         System.out.println("LotCnt: "+ this.LotCnt);
         System.out.println("LotQty: "+ this.LotQty);
         System.out.println("SiteCnt: "+ this.SiteCnt);
+        printArray(this.Handler, "Handler");
+        printArray(this.DIB, "DIB");
+        
         
     }
     

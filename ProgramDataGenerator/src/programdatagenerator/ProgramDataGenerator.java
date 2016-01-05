@@ -42,7 +42,7 @@ public class ProgramDataGenerator extends Application {
         Products= XMLRead.getProducts();
         if(Products!=null){
             for(Product myProduct: Products){
-
+                myProduct.print();
 
             }
         }

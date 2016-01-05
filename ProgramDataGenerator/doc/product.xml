@@ -7,8 +7,9 @@ and open the template in the editor.
 
 
 <products>
+    <logPath>\\vsuzatedev02\tspdata\simulation</logPath>
     <product name ="Trinity">
-        <TestProgram>Trinity</TestProgram>
+        <TestProgram>Trinity_TP</TestProgram>
         <ShortName>TN</ShortName>
         <ProgramVersion>
             <Value>1.2</Value>
@@ -22,6 +23,14 @@ and open the template in the editor.
             <Value>TN_ADCDEF</Value>
             <Value>TN_AFCDEF</Value>
         </TestCode>
+        <Handler>
+            <Value>TN_Handler_01</Value>
+            <Value>TN_Handler_02</Value>
+        </Handler>
+        <DIB>
+            <Value>TN_DIB_01</Value>
+            <Value>TN_DIB_02</Value>
+        </DIB>
 	<MFGStep>TN-6666</MFGStep>
 	<Device>TN-8888D</Device>
 	<Package>
@@ -35,7 +44,7 @@ and open the template in the editor.
         <SiteCnt>2</SiteCnt>
     </product>
     <product name ="Styx">
-        <TestProgram>Styx</TestProgram>
+        <TestProgram>Styx_TP</TestProgram>
         <ShortName>SX</ShortName>
         <ProgramVersion>
             <Value>2.2</Value>
@@ -49,6 +58,14 @@ and open the template in the editor.
             <Value>SX_ADCDEF</Value>
             <Value>SX_AFCDEF</Value>
         </TestCode>
+        <Handler>
+            <Value>SX_Handler_01</Value>
+            <Value>SX_Handler_02</Value>
+        </Handler>
+        <DIB>
+            <Value>SX_DIB_01</Value>
+            <Value>SX_DIB_02</Value>
+        </DIB>
 	<MFGStep>SX-6666</MFGStep>
 	<Device>SX-8888D</Device>
 	<Package>
@@ -62,7 +79,7 @@ and open the template in the editor.
         <SiteCnt>1</SiteCnt>
     </product>
     <product name ="Kavari">
-        <TestProgram>Kavari</TestProgram>
+        <TestProgram>Kavari_TP</TestProgram>
         <ShortName>KV</ShortName>
         <ProgramVersion>
             <Value>3.2</Value>
@@ -76,6 +93,14 @@ and open the template in the editor.
             <Value>KV_ADCDEF</Value>
             <Value>KV_AFCDEF</Value>
         </TestCode>
+        <Handler>
+            <Value>KV_Handler_01</Value>
+            <Value>KV_Handler_02</Value>
+        </Handler>
+        <DIB>
+            <Value>KV_DIB_01</Value>
+            <Value>KV_DIB_02</Value>
+        </DIB>
 	<MFGStep>KV-6666</MFGStep>
 	<Device>KV-8888D</Device>
 	<Package>

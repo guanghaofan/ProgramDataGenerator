@@ -5,16 +5,13 @@
  */
 package programdatagenerator.simulationdata;
 
+import java.io.File;
+
 /**
  *
  * @author ghfan
  */
-public class SubLot{
-    private String TesterName=null;
-
-    public SubLot() {
-    }
-    
-    
+public class Variables {
+    public static File logPath=null;
     
 }

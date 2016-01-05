@@ -17,6 +17,7 @@ import org.dom4j.ElementHandler;
 import org.dom4j.ElementPath;
 import org.dom4j.io.SAXReader;
 import programdatagenerator.simulationdata.Product;
+import programdatagenerator.simulationdata.Variables;
 
 /**
  *
@@ -47,6 +48,27 @@ public class XMLRead {
                     Product myProduct = new Product(row);
                     myProduct.print();
                     products.add(myProduct);
+                    row.detach();
+                }
+            });
+            reader.addHandler("/products/logPath",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent();                    
+                    if(row.getText()!=null){
+                        File logPath= new File(row.getText());
+                        if((!logPath.isDirectory())&& (!logPath.exists())){
+                            if(logPath.mkdirs())
+                                Variables.logPath = logPath;
+                            else
+                                Variables.logPath = null;
+                        }
+                    }
+               
                     row.detach();
                 }
             });

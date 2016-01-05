@@ -5,6 +5,8 @@
  */
 package programdatagenerator.simulationdata;
 
+import java.io.File;
+
 /**
  *
  * @author Administrator
@@ -29,8 +31,13 @@ public class LotHead {
     private String Device=null;
     private String Package =null;
     private String Facility =null;
+    private String Handler=null;
+    private String DIB=null;
     private int LotQty=0;
     private int SiteCnt=0;
+    
+    
+    
  
     /**
     *@param LotID
@@ -44,11 +51,13 @@ public class LotHead {
     * @param Facility
     * @param LotQty
     * @param SiteCnt
+    * @param Dib
+    * @param Handler
     * 
     */
     public LotHead(String LotID, String ProductName, String TestProgram, String ProgramVersion,
             String TestCode,String MFGStep, String Device,String Package, 
-            String Facility, int LotQty, int SiteCnt){
+            String Facility, int LotQty, int SiteCnt, String Dib, String Handler){
         this.LotID=LotID;
         this.ProductName=ProductName;
         this.TestProgram= TestProgram;
@@ -60,6 +69,8 @@ public class LotHead {
         this.Facility=Facility;
         this.LotQty=LotQty;
         this.SiteCnt=SiteCnt;
+        this.DIB=Dib;
+        this.Handler=Handler;
     }
 
     public LotHead() {
@@ -79,6 +90,8 @@ public class LotHead {
         System.out.println("Facility: "+ this.Facility);
         System.out.println("LotQty: "+ this.LotQty);
         System.out.println("SiteCnt: "+ this.SiteCnt);
+        System.out.println("Handler: " + this.Handler);
+        System.out.println("DIB: " + this.DIB);
         System.out.println("<--End Lot Head Information--->");
 //        System.out.println("LotID: "+ this.LotID);
 //        System.out.println("LotID: "+ this.LotID);
@@ -174,7 +187,22 @@ public class LotHead {
         this.SiteCnt = SiteCnt;
     }
     
-
+    public String getDIB() {
+        return DIB;
+    }
+    
+    public String getHandler() {
+        return Handler;
+    }
+    
+    public void generateXML(){
+        if(Variables.logPath!=null){
+           
+            
+        }
+        
+        
+    }
     
     
     
