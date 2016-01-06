@@ -13,5 +13,11 @@ import java.io.File;
  */
 public class Variables {
     public static File logPath=null;
-    
+    public enum TesterStatus{Testing, Paused, Idle,Completed};
+    public enum TestMode{fast, realTime};
+    public static TestMode simulationMode=TestMode.fast;
+    public static double FirstYield=0.90;
+    public static double RescreenYield=0.5;
+    public static double FinalYield=0.98;
+      
 }

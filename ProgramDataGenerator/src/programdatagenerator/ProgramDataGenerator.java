@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import programdatagenerator.simulationdata.Product;
+import programdatagenerator.simulationdata.Variables;
 import programdatagenerator.util.XMLRead;
 
 /**
@@ -34,24 +35,32 @@ public class ProgramDataGenerator extends Application {
 //    public final String[] myTesters = new String[]{"all","sapphire","verigy","SLT","HST","hontech"};
     public final ChoiceBox tester= new ChoiceBox(FXCollections.observableArrayList("ALL","SAPPHIRE","VERIGY","SLT","HST","HONTECH"));
     public List<Product> Products= new ArrayList<>();
+    public long TotalUnitCnt=0;
     
     
     
     @Override
     public void start(Stage primaryStage) {
-        Products= XMLRead.getProducts();
+        Products= XMLRead.readProducts();
         if(Products!=null){
             for(Product myProduct: Products){
-                myProduct.print();
+                TotalUnitCnt+= myProduct.getTotalUnitCnt();
+                myProduct.printProductInfo();
+//                myProduct.printRandomLotHeadInfo();
 
             }
         }
         
+        System.out.println("Simulation Mode: " + Variables.simulationMode.toString());
+        System.out.println("Log Path is: " + Variables.logPath.getAbsolutePath());
+        System.out.println("TotalUnitCnt: " + TotalUnitCnt);
+        
+        
+        
         
         Button btn = new Button();
         btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
+        btn.setOnAction(new EventHandler<ActionEvent>() {  
             @Override
             public void handle(ActionEvent event) {
                 System.out.println("Hello World!");
@@ -72,7 +81,7 @@ public class ProgramDataGenerator extends Application {
             }
         });
         
-        Scene scene = new Scene(root, 300, 250);
+        Scene scene = new Scene(root, 800, 600);
         
         
         

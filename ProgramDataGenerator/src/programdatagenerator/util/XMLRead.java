@@ -24,12 +24,11 @@ import programdatagenerator.simulationdata.Variables;
  * @author ghfan
  */
 public class XMLRead {
+    public static final List<Product> Products = new ArrayList<>();
 
     public XMLRead() {
     }
-    public static List<Product> getProducts(){
-        final List<Product> products;
-        products = new ArrayList<>();
+    public static List<Product> readProducts(){
         
         File file = new File("./doc/product.xml");
         if(file.exists()){
@@ -46,8 +45,47 @@ public class XMLRead {
                     // process a ROW element
                     Element row = path.getCurrent(); 
                     Product myProduct = new Product(row);
-                    myProduct.print();
-                    products.add(myProduct);
+                    myProduct.printProductInfo();
+                    Products.add(myProduct);
+                    row.detach();
+                }
+            });
+            reader.addHandler("/products/FirstYield",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent(); 
+                    if(row.getText()!=null)
+                        Variables.FirstYield=Double.valueOf(row.getText());
+                    row.detach();
+                }
+            });
+            reader.addHandler("/products/RescreenYield",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent(); 
+                    if(row.getText()!=null)
+                        Variables.RescreenYield=Double.valueOf(row.getText());
+                    row.detach();
+                }
+            });
+            reader.addHandler("/products/FinalYield",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent(); 
+                    if(row.getText()!=null)
+                        Variables.FinalYield=Double.valueOf(row.getText());
                     row.detach();
                 }
             });
@@ -67,14 +105,33 @@ public class XMLRead {
                             else
                                 Variables.logPath = null;
                         }
+                        else
+                            Variables.logPath=logPath;
                     }
+               
+                    row.detach();
+                }
+            });
+            reader.addHandler("/products/testMode",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent();                    
+                    if(row.getText()!=null && row.getText().equalsIgnoreCase("fast")){
+                        Variables.simulationMode=Variables.TestMode.fast;
+                    }
+                    else
+                        Variables.simulationMode=Variables.TestMode.realTime;
                
                     row.detach();
                 }
             });
             try {
                 document = reader.read(file);
-                return products;
+                return Products;
             } catch (DocumentException ex) {
                Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
                return null;
@@ -85,6 +142,7 @@ public class XMLRead {
             return null;
         }
     }
+    
     
  
 }

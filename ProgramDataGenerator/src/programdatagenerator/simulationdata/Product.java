@@ -6,6 +6,7 @@
 package programdatagenerator.simulationdata;
 
 import java.io.File;
+import static java.lang.Math.random;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,6 @@ public class Product {
     private String TestProgram=null;
     private List<String> ProgramVersion= new ArrayList<>();
     private List<String> TestCode = new ArrayList<>();
-    private List<String> Handler = new ArrayList<>();
     private List<String> DIB = new ArrayList<>();
     private String MFGStep=null;
     private String Device=null;
@@ -37,6 +37,8 @@ public class Product {
     private int LotCnt=0;
     private int LotQty=0;
     private int SiteCnt=0;
+    private int TotalDIBCnt=0;
+    private int TotalUnitCnt=0;
     
     private List<Lot> RandomLot= new ArrayList<>();
    
@@ -70,13 +72,7 @@ public class Product {
                             break;   
                         case "Package":
                             readValue(this.Package,node);
-                            break;
-                        case "Handler":
-                            readValue(this.Handler,node);
-                            break;
-                        case "DIB":
-                            readValue(this.DIB,node);
-                            break;    
+                            break;   
                         case "Facility":
                             this.Facility=node.getText();
                             break;    
@@ -97,25 +93,26 @@ public class Product {
                 for(int j=0; j!= this.TestCode.size();j++){
                     for(int k=0; k!= this.Package.size();k++){
                         for(int r=0; r!= this.LotCnt;r++){
-                            for(int handlerCnt=0;handlerCnt!= this.Handler.size();handlerCnt++ ){
-                                for(int DIBCnt=0;DIBCnt!= this.DIB.size();DIBCnt++ ){
-                                    if(LotNo<10){
-                                        LotID=this.ShortName+ "00" + String.valueOf(LotNo);
-                                    }
-                                    else if(LotNo<99){
-                                        LotID=this.ShortName+ "0" + String.valueOf(LotNo);
-                                    }
-                                    else
-                                        LotID=this.ShortName + String.valueOf(LotNo);
-                                    
-                                    this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
-                                    this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
-                                    this.Package.get(k),this.Facility,this.getLotQty(), this.SiteCnt,this.DIB.get(DIBCnt),
-                                    this.Handler.get(handlerCnt))));
-                                    LotNo++;
-                                    
-                                }
+                          
+                            if(LotNo<10){
+                                LotID=this.ShortName+ "00" + String.valueOf(LotNo);
                             }
+                            else if(LotNo<99){
+                                LotID=this.ShortName+ "0" + String.valueOf(LotNo);
+                            }
+                            else
+                                LotID=this.ShortName + String.valueOf(LotNo);
+                            
+                            int lotQty= (int) (this.getLotQty() + random()*300);
+
+                            this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
+                            this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
+                            this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt)));
+                            LotNo++;
+                            TotalUnitCnt+=lotQty;
+                                    
+                                
+                            
                             
                         }
                     }
@@ -218,6 +215,27 @@ public class Product {
     
     
 
+    public List<String> getDIB() {
+        return DIB;
+    }
+
+    public String getShortName() {
+        return ShortName;
+    }
+
+    public int getTotalDIBCnt() {
+        return TotalDIBCnt;
+    }
+    public int getTotalUnitCnt() {
+        return TotalUnitCnt;
+    }
+    
+
+    public void setTotalDIBCnt(int TotalDIBCnt) {
+        this.TotalDIBCnt = TotalDIBCnt;
+    }
+    
+
     public List<Lot> getRandomLot() {
         return RandomLot;
     }
@@ -240,13 +258,14 @@ public class Product {
         
     }
     
-    private void printRandomLotHeadInfo(){
+    public void printRandomLotHeadInfo(){
         for(Lot lot: this.RandomLot){
-            lot.getLotHeadInfo().printLotHead();
+//            lot.getLotHeadInfo().printLotHead();
+            lot.printLotInfo();
         }
     }
  
-    public void print(){
+    public void printProductInfo(){
         System.out.println("ProductName: " + this.ProductName);
         System.out.println("TestProgram "+ this.TestProgram);
         printArray(this.ProgramVersion, "ProgramVersion");
@@ -258,9 +277,7 @@ public class Product {
         System.out.println("LotCnt: "+ this.LotCnt);
         System.out.println("LotQty: "+ this.LotQty);
         System.out.println("SiteCnt: "+ this.SiteCnt);
-        printArray(this.Handler, "Handler");
-        printArray(this.DIB, "DIB");
-        
+        System.out.println("TotalUnitCnt: "+ this.TotalUnitCnt);
         
     }
     
@@ -283,7 +300,7 @@ public class Product {
                     Element row = path.getCurrent(); 
                     Product myProduct = new Product(row);
                     
-                    myProduct.print();
+                    myProduct.printProductInfo();
                     myProduct.printRandomLotHeadInfo();
                     // prune the tree
                     row.detach();

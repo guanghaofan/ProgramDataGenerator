@@ -30,11 +30,10 @@ public class LotHead {
     private String MFGStep= null;
     private String Device=null;
     private String Package =null;
-    private String Facility =null;
-    private String Handler=null;
-    private String DIB=null;
+    private String Facility =null; 
     private int LotQty=0;
     private int SiteCnt=0;
+    private int LotUnitStart=0; //start from 0
     
     
     
@@ -51,13 +50,11 @@ public class LotHead {
     * @param Facility
     * @param LotQty
     * @param SiteCnt
-    * @param Dib
-    * @param Handler
-    * 
+    * @param LotUnitStart
     */
     public LotHead(String LotID, String ProductName, String TestProgram, String ProgramVersion,
             String TestCode,String MFGStep, String Device,String Package, 
-            String Facility, int LotQty, int SiteCnt, String Dib, String Handler){
+            String Facility, int LotQty, int SiteCnt, int LotUnitStart){
         this.LotID=LotID;
         this.ProductName=ProductName;
         this.TestProgram= TestProgram;
@@ -69,8 +66,8 @@ public class LotHead {
         this.Facility=Facility;
         this.LotQty=LotQty;
         this.SiteCnt=SiteCnt;
-        this.DIB=Dib;
-        this.Handler=Handler;
+        this.LotUnitStart=LotUnitStart;
+
     }
 
     public LotHead() {
@@ -79,6 +76,7 @@ public class LotHead {
     public void printLotHead(){
         System.out.println();
         System.out.println("<----Lot Head Information---->");
+        
         System.out.println("LotID: "+ this.LotID);
         System.out.println("ProductName: "+ this.ProductName);
         System.out.println("TestProgram: "+ this.TestProgram);
@@ -90,8 +88,8 @@ public class LotHead {
         System.out.println("Facility: "+ this.Facility);
         System.out.println("LotQty: "+ this.LotQty);
         System.out.println("SiteCnt: "+ this.SiteCnt);
-        System.out.println("Handler: " + this.Handler);
-        System.out.println("DIB: " + this.DIB);
+        System.out.println("LotUnitStart: "+ this.LotUnitStart);
+
         System.out.println("<--End Lot Head Information--->");
 //        System.out.println("LotID: "+ this.LotID);
 //        System.out.println("LotID: "+ this.LotID);
@@ -185,16 +183,11 @@ public class LotHead {
 
     public void setSiteCnt(int SiteCnt) {
         this.SiteCnt = SiteCnt;
+    }  
+ 
+    public int getLotUnitStart() {
+        return LotUnitStart;
     }
-    
-    public String getDIB() {
-        return DIB;
-    }
-    
-    public String getHandler() {
-        return Handler;
-    }
-    
     public void generateXML(){
         if(Variables.logPath!=null){
            
