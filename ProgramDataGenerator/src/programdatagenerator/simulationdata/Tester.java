@@ -23,6 +23,12 @@ public class Tester {
         Status= TesterStatus.Idle;
         this.TesterName="Sapphire_"+ testerNo;
     }
+    
+    
+
+    public String getTesterName() {
+        return TesterName;
+    }
     public void startTesting(Lot lot){
         
     }

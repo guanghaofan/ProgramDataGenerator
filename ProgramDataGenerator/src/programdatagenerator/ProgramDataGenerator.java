@@ -17,11 +17,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import programdatagenerator.simulationdata.Product;
 import programdatagenerator.simulationdata.Variables;
 import programdatagenerator.util.XMLRead;
+import ui.TesterCell;
 
 /**
  *
@@ -67,8 +73,23 @@ public class ProgramDataGenerator extends Application {
             }
         });
         
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
+        
+        
+                
+        VBox vbox= new VBox();
+        
+        for(int i =0;i!= Variables.TesterCnt;i++){
+           vbox.getChildren().add(getTesterPanel(i));
+        }
+//        vbox.getChildren().addAll(getTesterPanel(0),getTesterPanel(1),getTesterPanel(2));
+     
+//        TesterCell ateTester = new TesterCell(0);
+
+       
+//        vbox.getChildren().addAll(ateTester);
+//        vbox.setPrefSize(200, 24*6);
+        AnchorPane root = new AnchorPane();
+        root.getChildren().add(vbox);
         
         
         tester.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
@@ -81,14 +102,17 @@ public class ProgramDataGenerator extends Application {
             }
         });
         
-        Scene scene = new Scene(root, 800, 600);
+//        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 1200, 850);
+        
+      
         
         
         
-        
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("ATE Data Generator");
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.setResizable(false);
     }
 
     /**
@@ -96,6 +120,12 @@ public class ProgramDataGenerator extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+    public HBox getTesterPanel(int testerNo){
+        HBox hbox = new HBox();
+//         hbox.setSpacing(5);
+        hbox.getChildren().addAll(new TesterCell(testerNo*4),new TesterCell(testerNo*4+1),new TesterCell(testerNo*4+2),new TesterCell(testerNo*4+3) );
+        return hbox;
     }
     
 }

@@ -63,6 +63,19 @@ public class XMLRead {
                     row.detach();
                 }
             });
+            reader.addHandler("/products/TesterCnt",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent(); 
+                    if(row.getText()!=null)
+                        Variables.TesterCnt=Integer.valueOf(row.getText());
+                    row.detach();
+                }
+            });
             reader.addHandler("/products/RescreenYield",new ElementHandler() {
                 @Override
                 public void onStart(ElementPath path) {
