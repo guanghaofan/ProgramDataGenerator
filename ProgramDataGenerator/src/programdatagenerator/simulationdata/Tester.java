@@ -16,6 +16,7 @@ public class Tester {
     private String TesterName=null;
     private TesterStatus Status = null;
     private Lot lot=null;
+    private SubLot subLot=null;
     /**
      * 
      * @param testerName 
@@ -36,7 +37,8 @@ public class Tester {
         lot= XMLRead.getNextLot();
         for(SubLot subLot: lot.getSubLots()){
             if(!subLot.isSubLotCompleted()){
-                
+                this.subLot=subLot;
+                break;
             }
         }
         // should be only a sub lot in a mother lot
