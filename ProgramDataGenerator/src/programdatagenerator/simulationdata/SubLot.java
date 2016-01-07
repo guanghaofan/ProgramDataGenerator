@@ -20,6 +20,7 @@ private int SubLotUnitCnt=0;
 private int SubLotUnitStart=0;
 private String SubLotID=null;
 
+private boolean SubLotCompleted=false;
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
 //    }
@@ -79,6 +80,15 @@ private String SubLotID=null;
     }
     private void geneareteEndLotXML(){
     
+    }
+    
+
+    public void setSubLotCompleted(boolean SubLotCompleted) {
+        this.SubLotCompleted = SubLotCompleted;
+    }
+
+    public boolean isSubLotCompleted() {
+        return SubLotCompleted;
     }
     
     public void printSubLot(){

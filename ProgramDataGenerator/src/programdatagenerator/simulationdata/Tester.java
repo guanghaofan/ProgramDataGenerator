@@ -6,6 +6,7 @@
 package programdatagenerator.simulationdata;
 
 import programdatagenerator.simulationdata.Variables.TesterStatus;
+import programdatagenerator.util.XMLRead;
 
 /**
  *
@@ -13,8 +14,8 @@ import programdatagenerator.simulationdata.Variables.TesterStatus;
  */
 public class Tester {
     private String TesterName=null;
-   // private status
     private TesterStatus Status = null;
+    private Lot lot=null;
     /**
      * 
      * @param testerName 
@@ -29,8 +30,22 @@ public class Tester {
     public String getTesterName() {
         return TesterName;
     }
-    public void startTesting(Lot lot){
+    public void startTesting(){
+//      LotID=XMLRead.getNextLot().getLotHeadInfo().getLotID();
         
+        lot= XMLRead.getNextLot();
+        for(SubLot subLot: lot.getSubLots()){
+            if(!subLot.isSubLotCompleted()){
+                
+            }
+        }
+        // should be only a sub lot in a mother lot
+        
+        
+        
+        
+//        lot.getLotHeadInfo().printLotHead();
+       
     }
 
     public TesterStatus getStatus() {
@@ -42,6 +57,14 @@ public class Tester {
     }
     public void pauseTesting(){}
     public void resumeTesting(){}
+
+    public Lot getLot() {
+        return lot;
+    }
+    public void printLotHead(){
+          
+    }
+    
     
     /**
      * @ TODO 

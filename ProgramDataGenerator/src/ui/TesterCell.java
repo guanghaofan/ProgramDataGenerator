@@ -21,6 +21,7 @@ import programdatagenerator.simulationdata.Tester;
 import programdatagenerator.simulationdata.Variables;
 
 import org.controlsfx.tools.Borders;
+import programdatagenerator.simulationdata.Lot;
 
 /**
  *
@@ -28,34 +29,36 @@ import org.controlsfx.tools.Borders;
  */
 public class TesterCell extends Region{
     private Tester Tester;
-    private Button StatusButton = new Button("Start Testing");
-    private Label  StatusLabel = new Label("IDLE");
+//    private Button StatusButton = new Button("Start Testing");
+//    private Label  StatusLabel = new Label("IDLE");
     
-    private Label TestModeLabel= new Label("Test Mode");
-    private TextField TestModeField= new TextField();
+    private final Label TestModeLabel= new Label("Test Mode");
+    private final TextField TestModeField= new TextField();
     
-    private Label ProductLabel= new Label("Product");
-    private TextField ProductField= new TextField();
+    private final Label ProductLabel= new Label("Product");
+    private final TextField ProductField= new TextField();
     
-    private Label LotLabel = new Label("LotID");
-    private TextField LotIDField= new TextField();
+    private final Label LotLabel = new Label("LotID");
+    private final TextField LotIDField= new TextField();
     
-    private Label YieldLabel = new Label("Yield");
-    private TextField YieldField= new TextField();
+    private final Label YieldLabel = new Label("Yield");
+    private final TextField YieldField= new TextField();
     
-    private Label TestCodeLabel = new Label("Test Code");
-    private TextField TestCodeField= new TextField();
+    private final Label TestCodeLabel = new Label("Test Code");
+    private final TextField TestCodeField= new TextField();
     
-    private TextField LotQtyField= new TextField();
-    private Label LotQty = new Label("Lot Qty");
+    private final TextField LotQtyField= new TextField();
+    private final  Label LotQty = new Label("Lot Qty");
     
-    private TextField TestedUnitsField= new TextField();
-    private Label TestedUnitsLabel = new Label("Tested Units");
+    private final TextField TestedUnitsField= new TextField();
+    private final Label TestedUnitsLabel = new Label("Tested Units");
     
-    private Label TesterStatusLabel =new Label("Tester Status");
-    private Label TesterStatusField =new Label();
+    private final Label TesterStatusLabel =new Label("Tester Status");
+    private final TextField TesterStatusField =new TextField();
     
-    private Button button = new Button("Start Testing");
+    private final Button button = new Button("Start Testing");
+    
+    private Lot lot=null;
             
     
 //    private boolean firstRun=true;
@@ -65,23 +68,23 @@ public class TesterCell extends Region{
     public TesterCell(int testerNo) {
         Tester= new Tester(testerNo);
         
-        StatusButton.setOnAction(new EventHandler(){
+        button.setOnAction(new EventHandler(){
 
             @Override
             public void handle(Event t) {
                 if(Tester.getStatus().equals(Variables.TesterStatus.Paused)){
                     Tester.setStatus(Variables.TesterStatus.Testing);
-                    StatusLabel.setText("Testing");
+                    TesterStatusField.setText("Testing");
                     Tester.resumeTesting();
                     
-                    StatusButton.setText("Pause Testing");
+                    button.setText("Pause Testing");
                 }
                 else if(Tester.getStatus().equals(Variables.TesterStatus.Testing)){
                     Tester.setStatus(Variables.TesterStatus.Paused);
-                    StatusLabel.setText("Paused");
+                    TesterStatusField.setText("Paused");
                     Tester.pauseTesting();
                     
-                    StatusButton.setText("Resume Testing");
+                    button.setText("Resume Testing");
                 }
                 else if(Tester.getStatus().equals(Variables.TesterStatus.Completed)||Tester.getStatus().equals(Variables.TesterStatus.Idle) ){
 //                    for(Product product: XMLRead.Products){
@@ -97,10 +100,22 @@ public class TesterCell extends Region{
 //                        }
 //                    }
                     Tester.setStatus(Variables.TesterStatus.Testing);
-                    StatusLabel.setText("Testing");
-                    Tester.startTesting(null);
+                    TesterStatusField.setText("Testing");
+                    Tester.startTesting();
                     
-                    StatusButton.setText("Pause Testing");
+                    button.setText("Pause Testing");
+                    lot=Tester.getLot();
+                    lot.setTestCompleted(true);
+                    
+//                    Tester.getLot().printLotInfo();
+//                    lot.printLotInfo();
+                    if(lot!=null){
+                        Tester.printLotHead();
+                        ProductField.setText(lot.getLotHeadInfo().getProductName());
+                        LotIDField.setText(lot.getLotHeadInfo().getLotID());
+                        TestModeField.setText("Fresh");
+                        LotQtyField.setText(String.valueOf(lot.getLotHeadInfo().getLotQty()));
+                    }
                     
                     
                 }
@@ -194,7 +209,7 @@ public class TesterCell extends Region{
         LotQtyField.setEditable(false);
         YieldField.setEditable(false);
         TestedUnitsField.setEditable(false);
-   
+        TesterStatusField.setEditable(false);
         vbox1.setSpacing(5);
         
 //        vbox.setPrefHeight(120);

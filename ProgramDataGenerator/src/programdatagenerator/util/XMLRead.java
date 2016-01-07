@@ -16,6 +16,7 @@ import org.dom4j.Element;
 import org.dom4j.ElementHandler;
 import org.dom4j.ElementPath;
 import org.dom4j.io.SAXReader;
+import programdatagenerator.simulationdata.Lot;
 import programdatagenerator.simulationdata.Product;
 import programdatagenerator.simulationdata.Variables;
 
@@ -24,6 +25,7 @@ import programdatagenerator.simulationdata.Variables;
  * @author ghfan
  */
 public class XMLRead {
+    public static String CurrentProduct= null;
     public static final List<Product> Products = new ArrayList<>();
 
     public XMLRead() {
@@ -156,6 +158,47 @@ public class XMLRead {
         }
     }
     
+    public static Lot getNextLot(){
+        String lotID=null;
+        if(CurrentProduct!=null){
+            System.out.println("Previous Product is: " + CurrentProduct);
+            for(int i=0; i!= Products.size();i++){
+                if(Products.get(i).getProductName().equals(CurrentProduct)){
+                    if(i==Products.size()-1)
+                        CurrentProduct=Products.get(0).getProductName();
+                    else
+                        CurrentProduct=Products.get(i+1).getProductName();
+                    break;
+                }
+                    
+            }
+            System.out.println("get product for next lot: " + CurrentProduct);
+        }
+        else{
+           
+            CurrentProduct=Products.get(0).getProductName();
+             System.out.println("this is the first time for testing, so choose the first product: " + CurrentProduct);
+        
+        }
+        boolean getLot=false;
+        for(Product product: Products){
+            if(product.getProductName().equals(CurrentProduct)){
+                for(Lot lot: product.getRandomLot()){
+                    if(!lot.isTestCompleted()){
+                        // which means a new lot still waiting for test
+                        getLot=true;
+                        lotID=lot.getLotHeadInfo().getLotID();
+                        System.out.println("get next lot: " + lot.getLotHeadInfo().getLotID() + " for product " + CurrentProduct);
+//                        lot.getLotHeadInfo().printLotHead();
+                        return lot;
+                    }
+                }   
+            }
+        }
+        return null;
+        
+  
+    }
     
  
 }

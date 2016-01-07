@@ -15,10 +15,15 @@ import java.util.List;
 public class Lot {
     private LotHead LotHeadInfo;
     private List<SubLot> SubLots= new ArrayList();
+    private boolean TestCompleted=false;
 
     public Lot(LotHead LotHead) {
         this.LotHeadInfo=LotHead;
         generateSubLots();
+    }
+    
+
+    public Lot() {
     }
 
     public LotHead getLotHeadInfo() {
@@ -65,6 +70,15 @@ public class Lot {
         else{
              this.SubLots.add(new SubLot(lotUnitCnt,this.LotHeadInfo.getLotUnitStart(),LotHeadInfo));
         }
+    }
+    
+
+    public void setTestCompleted(boolean TestCompleted) {
+        this.TestCompleted = TestCompleted;
+    }
+
+    public boolean isTestCompleted() {
+        return TestCompleted;
     }
     
     public void printLotInfo(){

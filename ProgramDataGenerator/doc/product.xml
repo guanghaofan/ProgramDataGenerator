@@ -12,7 +12,7 @@ and open the template in the editor.
     <FirstYield>0.91</FirstYield>
     <RescreenYield>0.5</RescreenYield>
     <FinalYield>0.98</FinalYield>
-    <TesterCnt>20</TesterCnt>
+    <TesterCnt>6</TesterCnt>
     <product name ="Trinity">
         <TestProgram>Trinity_TP</TestProgram>
         <ShortName>TN</ShortName>
