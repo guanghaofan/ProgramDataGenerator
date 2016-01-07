@@ -39,8 +39,11 @@ public class Tester {
             if(!subLot.isSubLotCompleted()){
                 this.subLot=subLot;
                 break;
+                
+                
             }
         }
+        this.subLot.printSubLot();
         // should be only a sub lot in a mother lot
         
         
