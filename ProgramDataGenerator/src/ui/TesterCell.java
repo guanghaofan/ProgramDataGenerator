@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
@@ -22,6 +23,8 @@ import programdatagenerator.simulationdata.Variables;
 
 import org.controlsfx.tools.Borders;
 import programdatagenerator.simulationdata.Lot;
+import programdatagenerator.simulationdata.SubLot;
+import programdatagenerator.util.XMLRead;
 
 /**
  *
@@ -56,9 +59,11 @@ public class TesterCell extends Region{
     private final Label TesterStatusLabel =new Label("Tester Status");
     private final TextField TesterStatusField =new TextField();
     
+    private final Label LotStartTimeLabel = new Label("LotStartTime");
+    private final TextField LotStartTimeField= new TextField();
     private final Button button = new Button("Start Testing");
     
-    private Lot lot=null;
+//    private Lot lot=null;
             
     
 //    private boolean firstRun=true;
@@ -87,34 +92,28 @@ public class TesterCell extends Region{
                     button.setText("Resume Testing");
                 }
                 else if(Tester.getStatus().equals(Variables.TesterStatus.Completed)||Tester.getStatus().equals(Variables.TesterStatus.Idle) ){
-//                    for(Product product: XMLRead.Products){
-//                        if(!product.getRandomLot().isEmpty()){
-//                            Tester.setStatus(Variables.TesterStatus.Testing);
-//                            StatusButton.setText("Testing");
-//                            Tester.startTesting(null);
-//                            
-//                        }
-//                        else{
-//                            Tester.setStatus(Variables.TesterStatus.Idle);
-//                            StatusButton.setText("Idle, No Material");
-//                        }
-//                    }
-                    Tester.setStatus(Variables.TesterStatus.Testing);
-                    TesterStatusField.setText("Testing");
-                    Tester.startTesting();
                     
-                    button.setText("Pause Testing");
-                    lot=Tester.getLot();
-                    lot.setTestCompleted(true);
-                    
-//                    Tester.getLot().printLotInfo();
-//                    lot.printLotInfo();
-                    if(lot!=null){
-                        Tester.printLotHead();
-                        ProductField.setText(lot.getLotHeadInfo().getProductName());
-                        LotIDField.setText(lot.getLotHeadInfo().getLotID());
+                    SubLot subLot= XMLRead.getNextSubLot();
+                    if(subLot!=null){
+                        //successfuly get sublot and start testing
+                        button.setText("Pause Testing");
+                        subLot.setLotStartTime(System.currentTimeMillis());
+                        Tester.setStatus(Variables.TesterStatus.Testing);
+                        TesterStatusField.setText("Testing");
+                        /**
+                        TODO
+                        add colour for status field
+                        */
+//                        TesterStatusField.setDisable(true);
+//                        TesterStatusField.setBackground(Background.EMPTY);
+                        
+                        ProductField.setText(subLot.getMotherLotHead().getProductName());
+                        LotIDField.setText(subLot.getMotherLotHead().getLotID());
                         TestModeField.setText("Fresh");
-                        LotQtyField.setText(String.valueOf(lot.getLotHeadInfo().getLotQty()));
+                        LotQtyField.setText(String.valueOf(subLot.getSubLotUnitCnt()));
+                        LotStartTimeField.setText(String.valueOf(subLot.getLotStartTime()));
+                        
+                        Tester.startTesting(subLot);
                     }
                     
                     
@@ -194,7 +193,7 @@ public class TesterCell extends Region{
         VBox vbox= new VBox();
 //        vbox.getChildren().addAll(hbox,hbox1,hbox2,hbox3,hbox4);
         vbox.setPadding(new Insets(2));
-        vbox.getChildren().addAll(ProductLabel,LotLabel,TestModeLabel,LotQty,TestedUnitsLabel,YieldLabel,TesterStatusLabel);
+        vbox.getChildren().addAll(ProductLabel,LotLabel,TestModeLabel,LotQty,LotStartTimeLabel,TestedUnitsLabel,YieldLabel,TesterStatusLabel);
         vbox.setSpacing(14);
         vbox.setFillWidth(true);
         
@@ -202,7 +201,7 @@ public class TesterCell extends Region{
 //        vbox.getChildren().addAll(hbox,hbox1,hbox2,hbox3,hbox4);
         vbox1.setPadding(new Insets(2));
         vbox1.setFillWidth(true);
-        vbox1.getChildren().addAll(ProductField,LotIDField,TestModeField,LotQtyField,TestedUnitsField,YieldField,TesterStatusField);
+        vbox1.getChildren().addAll(ProductField,LotIDField,TestModeField,LotQtyField,LotStartTimeField,TestedUnitsField,YieldField,TesterStatusField);
         ProductField.setEditable(false);
         LotIDField.setEditable(false);
         TestModeField.setEditable(false);
@@ -210,6 +209,7 @@ public class TesterCell extends Region{
         YieldField.setEditable(false);
         TestedUnitsField.setEditable(false);
         TesterStatusField.setEditable(false);
+        LotStartTimeField.setEditable(false);
         vbox1.setSpacing(5);
         
 //        vbox.setPrefHeight(120);

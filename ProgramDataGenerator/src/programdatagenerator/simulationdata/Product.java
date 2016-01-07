@@ -41,6 +41,7 @@ public class Product {
     private int TotalUnitCnt=0;
     
     private List<Lot> RandomLot= new ArrayList<>();
+    private int AvgTestTime=0;
    
 
     @SuppressWarnings("empty-statement")
@@ -60,6 +61,9 @@ public class Product {
                             break;    
                         case "ProgramVersion":
                             readValue(this.ProgramVersion,node);
+                           break;
+                        case "AvgTestTime":
+                           this.AvgTestTime=Integer.valueOf(node.getText());
                            break;
                         case "TestCode":
                             readValue(this.TestCode, node);

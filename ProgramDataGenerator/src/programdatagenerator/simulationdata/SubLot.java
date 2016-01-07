@@ -5,7 +5,12 @@
  */
 package programdatagenerator.simulationdata;
 
+import javafx.animation.KeyFrame;
+import programdatagenerator.util.DataWriter;
 import programdatagenerator.util.XMLRead;
+import javafx.animation.Timeline;
+import javafx.animation.TimelineBuilder;
+import javafx.util.Duration;
 
 /**
  *
@@ -20,7 +25,10 @@ private int SubLotUnitCnt=0;
 private int SubLotUnitStart=0;
 private String SubLotID=null;
 
-private boolean SubLotCompleted=false;
+private boolean TestCompleted=false;
+private boolean InTesting=false;
+private boolean FreshLot=true;
+private long LotStartTime=0;
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
 //    }
@@ -31,9 +39,9 @@ private boolean SubLotCompleted=false;
         this.MotherLotHead=lotHead;
     }
     
-    public void setTesterName(int TesterNo) {
-        this.TesterName = "Sapphire_"+ TesterNo;
-        setHandler("Handler_" + TesterNo);
+    public void setTesterName(String tester) {
+        this.TesterName = tester;
+        setHandler("Handler_"+ tester.split("_")[1]);
     }
 
     public String getTesterName() {
@@ -73,7 +81,17 @@ private boolean SubLotCompleted=false;
     }
     
     private void geneareteStartLotXML(){
-    
+       
+           Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis(2500),ae ->DataWriter.writeStartLot(this)));
+           timeLine.setCycleCount(SubLotUnitCnt);
+           timeLine.play();
+                    
+                    
+            
+            
+                    
+           
+        
     }
     private void geneareteUnitDataXML(){
     
@@ -83,12 +101,62 @@ private boolean SubLotCompleted=false;
     }
     
 
-    public void setSubLotCompleted(boolean SubLotCompleted) {
-        this.SubLotCompleted = SubLotCompleted;
+    public void setTestCompleted(boolean SubLotCompleted) {
+        this.TestCompleted = SubLotCompleted;
     }
 
-    public boolean isSubLotCompleted() {
-        return SubLotCompleted;
+    public boolean isTestCompleted() {
+        return TestCompleted;
+    }
+
+    public void setSubLotUnitCnt(int SubLotUnitCnt) {
+        this.SubLotUnitCnt = SubLotUnitCnt;
+    }
+
+    public void setFreshLot(boolean FreshLot) {
+        this.FreshLot = FreshLot;
+    }
+
+    public void setSubLotID(String SubLotID) {
+        this.SubLotID = SubLotID;
+    }
+
+    public void setInTesting(boolean InTesting) {
+        this.InTesting = InTesting;
+    }
+
+    public boolean isInTesting() {
+        return InTesting;
+    }
+
+    public boolean isFreshLot() {
+        return FreshLot;
+    }
+
+    public int getSubLotUnitStart() {
+        return SubLotUnitStart;
+    }
+
+    public int getSubLotUnitCnt() {
+        return SubLotUnitCnt;
+    }
+
+    public LotHead getMotherLotHead() {
+        return MotherLotHead;
+    }
+
+    public String getSubLotID() {
+        return SubLotID;
+    }
+    
+
+    public void setLotStartTime(long LotStartTime) {
+        this.LotStartTime = LotStartTime;
+    }
+    
+
+    public long getLotStartTime() {
+        return LotStartTime;
     }
     
     public void printSubLot(){

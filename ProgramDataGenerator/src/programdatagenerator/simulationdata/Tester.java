@@ -15,7 +15,6 @@ import programdatagenerator.util.XMLRead;
 public class Tester {
     private String TesterName=null;
     private TesterStatus Status = null;
-    private Lot lot=null;
     private SubLot subLot=null;
     /**
      * 
@@ -25,34 +24,30 @@ public class Tester {
         Status= TesterStatus.Idle;
         this.TesterName="Sapphire_"+ testerNo;
     }
-    
-    
-
     public String getTesterName() {
         return TesterName;
     }
-    public void startTesting(){
-//      LotID=XMLRead.getNextLot().getLotHeadInfo().getLotID();
-        
-        lot= XMLRead.getNextLot();
-        for(SubLot subLot: lot.getSubLots()){
-            if(!subLot.isSubLotCompleted()){
-                this.subLot=subLot;
-                break;
-                
-                
-            }
+    public void startTesting(SubLot lot){
+        /*
+        need to get a Fresh SubLot from any product, this sublot should only be testing
+        and re-testing on this tester until the yield meet the target 
+        */
+        subLot= lot;
+        if(subLot!=null){
+            /*
+            assign tester and handler, DIB also set lot status InTesting 
+            */
+            this.subLot.printSubLot();
+            this.subLot.setTesterName(TesterName);
+            this.subLot.setInTesting(true);
+            this.subLot.setDIB();
+            this.subLot.startTesting();
+            
+            
+            
         }
-        this.subLot.printSubLot();
-        // should be only a sub lot in a mother lot
-        
-        
-        
-        
-//        lot.getLotHeadInfo().printLotHead();
-       
-    }
 
+    }
     public TesterStatus getStatus() {
         return Status;
     }
@@ -62,13 +57,7 @@ public class Tester {
     }
     public void pauseTesting(){}
     public void resumeTesting(){}
-
-    public Lot getLot() {
-        return lot;
-    }
-    public void printLotHead(){
-          
-    }
+    
     
     
     /**

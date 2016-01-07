@@ -16,6 +16,7 @@ and open the template in the editor.
     <product name ="Trinity">
         <TestProgram>Trinity_TP</TestProgram>
         <ShortName>TN</ShortName>
+        <AvgTestTime>10</AvgTestTime>
         <ProgramVersion>
             <Value>1.2</Value>
             <Value>1.3</Value>
@@ -44,6 +45,7 @@ and open the template in the editor.
     <product name ="Styx">
         <TestProgram>Styx_TP</TestProgram>
         <ShortName>SX</ShortName>
+        <AvgTestTime>20</AvgTestTime>
         <ProgramVersion>
             <Value>2.2</Value>
             <Value>2.3</Value>
@@ -73,6 +75,7 @@ and open the template in the editor.
     <product name ="Kavari">
         <TestProgram>Kavari_TP</TestProgram>
         <ShortName>KV</ShortName>
+        <AvgTestTime>20</AvgTestTime>
         <ProgramVersion>
             <Value>3.2</Value>
             <Value>3.3</Value>

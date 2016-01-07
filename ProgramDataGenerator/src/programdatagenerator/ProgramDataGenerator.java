@@ -53,7 +53,7 @@ public class ProgramDataGenerator extends Application {
         if(Products!=null){
             for(Product myProduct: Products){
                 TotalUnitCnt+= myProduct.getTotalUnitCnt();
-                myProduct.printProductInfo();
+//                myProduct.printProductInfo();
 //                myProduct.printRandomLotHeadInfo();
 
             }

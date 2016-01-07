@@ -18,6 +18,7 @@ import org.dom4j.ElementPath;
 import org.dom4j.io.SAXReader;
 import programdatagenerator.simulationdata.Lot;
 import programdatagenerator.simulationdata.Product;
+import programdatagenerator.simulationdata.SubLot;
 import programdatagenerator.simulationdata.Variables;
 
 /**
@@ -158,7 +159,7 @@ public class XMLRead {
         }
     }
     
-    public static Lot getNextLot(){
+    public static SubLot getNextSubLot(){
         String lotID=null;
         if(CurrentProduct!=null){
             System.out.println("Previous Product is: " + CurrentProduct);
@@ -186,11 +187,18 @@ public class XMLRead {
                 for(Lot lot: product.getRandomLot()){
                     if(!lot.isTestCompleted()){
                         // which means a new lot still waiting for test
-                        getLot=true;
+                       
                         lotID=lot.getLotHeadInfo().getLotID();
                         System.out.println("get next lot: " + lot.getLotHeadInfo().getLotID() + " for product " + CurrentProduct);
-//                        lot.getLotHeadInfo().printLotHead();
-                        return lot;
+                        
+                        for(SubLot subLot:lot.getSubLots()){
+                            if(subLot.isFreshLot() &&(!subLot.isTestCompleted())&&(!subLot.isInTesting())){
+                                getLot=true;
+                                return subLot;
+                            }
+                        
+                        }
+                       
                     }
                 }   
             }
