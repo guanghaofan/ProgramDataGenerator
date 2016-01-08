@@ -22,7 +22,6 @@ public class Lot {
         generateSubLots();
     }
     
-
     public Lot() {
     }
 

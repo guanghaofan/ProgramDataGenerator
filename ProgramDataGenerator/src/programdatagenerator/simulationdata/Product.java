@@ -111,7 +111,7 @@ public class Product {
 
                             this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
                             this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
-                            this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt)));
+                            this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
                             LotNo++;
                             TotalUnitCnt+=lotQty;
                                     

@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 package ui;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -13,17 +15,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import programdatagenerator.simulationdata.Tester;
 import programdatagenerator.simulationdata.Variables;
 
 import org.controlsfx.tools.Borders;
-import programdatagenerator.simulationdata.Lot;
 import programdatagenerator.simulationdata.SubLot;
+import programdatagenerator.util.DataWriter;
 import programdatagenerator.util.XMLRead;
 
 /**
@@ -62,6 +64,7 @@ public class TesterCell extends Region{
     private final Label LotStartTimeLabel = new Label("LotStartTime");
     private final TextField LotStartTimeField= new TextField();
     private final Button button = new Button("Start Testing");
+    private final Timeline timeLine=null;
     
 //    private Lot lot=null;
             
@@ -97,7 +100,6 @@ public class TesterCell extends Region{
                     if(subLot!=null){
                         //successfuly get sublot and start testing
                         button.setText("Pause Testing");
-                        subLot.setLotStartTime(System.currentTimeMillis());
                         Tester.setStatus(Variables.TesterStatus.Testing);
                         TesterStatusField.setText("Testing");
                         /**
@@ -113,7 +115,19 @@ public class TesterCell extends Region{
                         LotQtyField.setText(String.valueOf(subLot.getSubLotUnitCnt()));
                         LotStartTimeField.setText(String.valueOf(subLot.getLotStartTime()));
                         
-                        Tester.startTesting(subLot);
+//                        Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis(2500),ae ->DataWriter.writeStartLot(this)));
+//           timeLine.setCycleCount(SubLotUnitCnt);
+//           timeLine.play();
+                        
+                        
+                        Tester.startLot(subLot);
+                        Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis((subLot.getMotherLotHead().getAvgTestTime()+2)*5*1000),
+                                ae ->Tester.generateUnitData()));
+                        timeLine.setCycleCount(subLot.getDataSetCnt());
+                        subLot.setLastTestedTime(System.currentTimeMillis());
+                        timeLine.play();
+                        
+                        
                     }
                     
                     

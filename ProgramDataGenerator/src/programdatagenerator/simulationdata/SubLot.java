@@ -28,7 +28,11 @@ private String SubLotID=null;
 private boolean TestCompleted=false;
 private boolean InTesting=false;
 private boolean FreshLot=true;
-private long LotStartTime=0;
+private String LotStartTime=null;
+
+private int DataSetCnt=0;
+private int CurrentDataSetNo=0;
+private long LastTestedTime=0;
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
 //    }
@@ -37,6 +41,9 @@ private long LotStartTime=0;
         this.SubLotUnitCnt=unitCnt;
         this.SubLotUnitStart=subLotUnitStart;
         this.MotherLotHead=lotHead;
+        this.DataSetCnt=unitCnt/5;
+        if(unitCnt%5!=0)
+            this.DataSetCnt+=1;
     }
     
     public void setTesterName(String tester) {
@@ -82,9 +89,7 @@ private long LotStartTime=0;
     
     private void geneareteStartLotXML(){
        
-           Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis(2500),ae ->DataWriter.writeStartLot(this)));
-           timeLine.setCycleCount(SubLotUnitCnt);
-           timeLine.play();
+          
                     
                     
             
@@ -92,6 +97,16 @@ private long LotStartTime=0;
                     
            
         
+    }
+    
+    
+
+    public void setCurrentDataSetNo(int CurrentDataSetNo) {
+        this.CurrentDataSetNo = CurrentDataSetNo;
+    }
+
+    public int getCurrentDataSetNo() {
+        return CurrentDataSetNo;
     }
     private void geneareteUnitDataXML(){
     
@@ -150,13 +165,31 @@ private long LotStartTime=0;
     }
     
 
-    public void setLotStartTime(long LotStartTime) {
+    public void setLotStartTime(String LotStartTime) {
         this.LotStartTime = LotStartTime;
     }
     
 
-    public long getLotStartTime() {
+    public String getLotStartTime() {
         return LotStartTime;
+    }
+    
+
+    public void setDataSetCnt(int DataSetCnt) {
+        this.DataSetCnt = DataSetCnt;
+    }
+
+    public int getDataSetCnt() {
+        return DataSetCnt;
+    }
+    
+
+    public void setLastTestedTime(long LastTestedTime) {
+        this.LastTestedTime = LastTestedTime;
+    }
+
+    public long getLastTestedTime() {
+        return LastTestedTime;
     }
     
     public void printSubLot(){

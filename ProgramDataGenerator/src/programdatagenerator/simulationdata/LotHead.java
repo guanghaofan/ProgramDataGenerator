@@ -34,6 +34,8 @@ public class LotHead {
     private int LotQty=0;
     private int SiteCnt=0;
     private int LotUnitStart=0; //start from 0
+    private int AvgTestTime =0;
+    private String ShortName=null;
     
     
     
@@ -51,10 +53,12 @@ public class LotHead {
     * @param LotQty
     * @param SiteCnt
     * @param LotUnitStart
+    * @param AvgTestTime
+    * @param ShortName
     */
     public LotHead(String LotID, String ProductName, String TestProgram, String ProgramVersion,
             String TestCode,String MFGStep, String Device,String Package, 
-            String Facility, int LotQty, int SiteCnt, int LotUnitStart){
+            String Facility, int LotQty, int SiteCnt, int LotUnitStart, int AvgTestTime, String shortName){
         this.LotID=LotID;
         this.ProductName=ProductName;
         this.TestProgram= TestProgram;
@@ -67,6 +71,8 @@ public class LotHead {
         this.LotQty=LotQty;
         this.SiteCnt=SiteCnt;
         this.LotUnitStart=LotUnitStart;
+        this.AvgTestTime=AvgTestTime;
+        this.ShortName=shortName;
 
     }
 
@@ -189,12 +195,16 @@ public class LotHead {
         return LotUnitStart;
     }
     public void generateXML(){
-        if(Variables.logPath!=null){
-           
-            
-        }
-        
-        
+        if(Variables.logPath!=null){   
+        }  
+    }
+
+    public int getAvgTestTime() {
+        return AvgTestTime;
+    }
+
+    public String getShortName() {
+        return ShortName;
     }
     
     

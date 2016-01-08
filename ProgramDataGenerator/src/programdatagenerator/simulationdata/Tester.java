@@ -5,7 +5,11 @@
  */
 package programdatagenerator.simulationdata;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import programdatagenerator.simulationdata.Variables.TesterStatus;
+import programdatagenerator.util.DataWriter;
 import programdatagenerator.util.XMLRead;
 
 /**
@@ -27,7 +31,7 @@ public class Tester {
     public String getTesterName() {
         return TesterName;
     }
-    public void startTesting(SubLot lot){
+    public void startLot(SubLot lot){
         /*
         need to get a Fresh SubLot from any product, this sublot should only be testing
         and re-testing on this tester until the yield meet the target 
@@ -42,9 +46,8 @@ public class Tester {
             this.subLot.setInTesting(true);
             this.subLot.setDIB();
             this.subLot.startTesting();
-            
-            
-            
+            this.subLot.setLotStartTime(DataWriter.getCurrentTime());
+            generateStartLot(); 
         }
 
     }
@@ -58,7 +61,14 @@ public class Tester {
     public void pauseTesting(){}
     public void resumeTesting(){}
     
-    
+    public void generateStartLot(){
+        DataWriter.writeStartLot(subLot);
+     // start lot doesn't need a timeline
+    }
+    public void generateUnitData(){
+        DataWriter.writeUnitData(subLot);
+     // start lot doesn't need a timeline
+    }
     
     /**
      * @ TODO 
