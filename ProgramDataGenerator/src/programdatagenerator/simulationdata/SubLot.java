@@ -10,6 +10,12 @@ import programdatagenerator.util.DataWriter;
 import programdatagenerator.util.XMLRead;
 import javafx.animation.Timeline;
 import javafx.animation.TimelineBuilder;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.util.Duration;
 
 /**
@@ -34,11 +40,16 @@ private int DataSetCnt=0;
 private int CurrentDataSetNo=0;
 private long LastTestedTime=0;
 private String logPath=null;
+private IntegerProperty totalTestedUnits =new SimpleIntegerProperty(1);
+private StringProperty yield = new SimpleStringProperty("0.0%");
+private Double totalPassCnt=0.0;
+
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
 //    }
 
     public SubLot(int unitCnt, int subLotUnitStart, LotHead lotHead) {
+        totalTestedUnits.setValue(0);
         this.SubLotUnitCnt=unitCnt;
         this.SubLotUnitStart=subLotUnitStart;
         this.MotherLotHead=lotHead;
@@ -60,6 +71,32 @@ private String logPath=null;
         return DIB;
     }
     
+    
+
+    public Double getTotalPassCnt() {
+        return totalPassCnt;
+    }
+
+    public void setTotalPassCnt(Double totalPassCnt) {
+        this.totalPassCnt = totalPassCnt;
+    }
+
+    public StringProperty getYield() {
+        return yield;
+    }
+
+    public void setYield(String yield) {
+        this.yield.setValue(yield);
+    }
+
+    public void setTotalTestedUnits(int totalTestedUnits) {
+        this.totalTestedUnits.setValue(totalTestedUnits);
+    }
+    
+
+    public IntegerProperty getTotalTestedUnits() {
+        return totalTestedUnits;
+    }
 
     public String getHandler() {
         return Handler;

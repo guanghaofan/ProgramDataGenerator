@@ -30,7 +30,7 @@ public class Product {
     private List<String> ProgramVersion= new ArrayList<>();
     private List<String> TestCode = new ArrayList<>();
     private List<String> DIB = new ArrayList<>();
-    private String MFGStep=null;
+    private List<String> MFGStep= new ArrayList<>();
     private String Device=null;
     private List<String> Package= new ArrayList<>();
     private String Facility=null;
@@ -69,7 +69,7 @@ public class Product {
                             readValue(this.TestCode, node);
                             break;
                         case "MFGStep":
-                            this.MFGStep=node.getText();
+                            readValue(this.MFGStep,node);
                             break;
                         case "Device":
                             this.Device=node.getText();
@@ -96,28 +96,26 @@ public class Product {
             for(int i=0; i!=this.ProgramVersion.size();i++){
                 for(int j=0; j!= this.TestCode.size();j++){
                     for(int k=0; k!= this.Package.size();k++){
-                        for(int r=0; r!= this.LotCnt;r++){
-                          
-                            if(LotNo<10){
-                                LotID=this.ShortName+ "00" + String.valueOf(LotNo);
-                            }
-                            else if(LotNo<99){
-                                LotID=this.ShortName+ "0" + String.valueOf(LotNo);
-                            }
-                            else
-                                LotID=this.ShortName + String.valueOf(LotNo);
-                            
-                            int lotQty= (int) (this.getLotQty() + random()*300);
+                        for(int mfgStep=0; mfgStep!= this.MFGStep.size();mfgStep++){
+                            for(int r=0; r!= this.LotCnt;r++){
 
-                            this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
-                            this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep, this.Device,
-                            this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
-                            LotNo++;
-                            TotalUnitCnt+=lotQty;
-                                    
-                                
-                            
-                            
+                                if(LotNo<10){
+                                    LotID=this.ShortName+ "00" + String.valueOf(LotNo);
+                                }
+                                else if(LotNo<99){
+                                    LotID=this.ShortName+ "0" + String.valueOf(LotNo);
+                                }
+                                else
+                                    LotID=this.ShortName + String.valueOf(LotNo);
+
+                                int lotQty= (int) (this.getLotQty() + random()*30);
+
+                                this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
+                                this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep.get(mfgStep), this.Device,
+                                this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
+                                LotNo++;
+                                TotalUnitCnt+=lotQty;
+                            }
                         }
                     }
                 }
@@ -161,13 +159,6 @@ public class Product {
         this.TestCode = TestCode;
     }
 
-    public String getMFGStep() {
-        return MFGStep;
-    }
-
-    public void setMFGStep(String MFGStep) {
-        this.MFGStep = MFGStep;
-    }
 
     public String getDevice() {
         return Device;

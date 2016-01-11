@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package ui;
+import java.text.Format;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -65,7 +66,7 @@ public class TesterCell extends Region{
     private final Label LotStartTimeLabel = new Label("LotStartTime");
     private final TextField LotStartTimeField= new TextField();
     private final Button button = new Button("Start Testing");
-    private final Timeline timeLine=null;
+    private Timeline timeLine=null;
     
 //    private Lot lot=null;
             
@@ -85,6 +86,7 @@ public class TesterCell extends Region{
                     Tester.setStatus(Variables.TesterStatus.Testing);
                     TesterStatusField.setText("Testing");
                     Tester.resumeTesting();
+                    timeLine.play();
                     
                     button.setText("Pause Testing");
                 }
@@ -92,6 +94,7 @@ public class TesterCell extends Region{
                     Tester.setStatus(Variables.TesterStatus.Paused);
                     TesterStatusField.setText("Paused");
                     Tester.pauseTesting();
+                    timeLine.pause();
                     
                     button.setText("Resume Testing");
                 }
@@ -113,8 +116,9 @@ public class TesterCell extends Region{
                         ProductField.setText(subLot.getMotherLotHead().getProductName());
                         LotIDField.setText(subLot.getMotherLotHead().getLotID());
                         TestModeField.setText("Fresh");
-                        LotQtyField.setText(String.valueOf(subLot.getSubLotUnitCnt()));
-                        
+                        LotQtyField.setText(String.valueOf(subLot.getSubLotUnitCnt()* subLot.getMotherLotHead().getSiteCnt()));
+                        TestedUnitsField.textProperty().bind(subLot.getTotalTestedUnits().asString());
+                        YieldField.textProperty().bind(subLot.getYield());
                         
 //                        Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis(2500),ae ->DataWriter.writeStartLot(this)));
 //           timeLine.setCycleCount(SubLotUnitCnt);
@@ -123,7 +127,7 @@ public class TesterCell extends Region{
                         
                         Tester.startLot(subLot);
                         LotStartTimeField.setText(String.valueOf(subLot.getLotStartTime()));
-                        Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis((subLot.getMotherLotHead().getAvgTestTime()+2)*5*1000),
+                        timeLine=  new Timeline(new KeyFrame(Duration.millis((subLot.getMotherLotHead().getAvgTestTime()+2)*5*1000),
                                 ae ->Tester.generateUnitData()));
                         timeLine.setCycleCount(subLot.getDataSetCnt());
                         subLot.setLastTestedTime(System.currentTimeMillis());
@@ -132,10 +136,13 @@ public class TesterCell extends Region{
                             @Override
                             public void handle(ActionEvent event) {
                                 Tester.setStatus(Variables.TesterStatus.Completed);
-                                LotStartTimeField.setText("Test Completed");
+                                TesterStatusField.setText("Test Completed");
+                                button.setText("New Lot");
+                                
                                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                             }
                         });
+                        
                         timeLine.play();
                         
                         

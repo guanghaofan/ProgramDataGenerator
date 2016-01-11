@@ -8,9 +8,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.NumberFormat;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.Random;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.StringProperty;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -80,7 +83,7 @@ public class DataWriter {
                     root.addElement("device").setText(subLot.getMotherLotHead().getDevice());
                     root.addElement("test_mode").setText(subLot.getTestMode());
                     
-                    root.addElement("mfg_step").setText("MFGStep");
+                    root.addElement("mfg_step").setText(subLot.getMotherLotHead().getMFGStep());
                     
                     root.addElement("test_code").setText(subLot.getMotherLotHead().getTestCode());
                     root.addElement("package").setText(subLot.getMotherLotHead().getPackage());
@@ -128,7 +131,9 @@ public class DataWriter {
                     long currentTime= System.currentTimeMillis();
                     long endTime=0;
                     int chuckID= new Random().nextInt(3);
+                    int unitCnts=0;
                     for(int touchDownNo=0; touchDownNo!=5 ;touchDownNo++){
+                        unitCnts=(dataSetNo*5+ touchDownNo+1)*subLot.getMotherLotHead().getSiteCnt();
                         if(dataSetNo*5+ touchDownNo+1<=subLot.getSubLotUnitCnt()){
                             for(int site=0;site!=subLot.getMotherLotHead().getSiteCnt();site++){
 
@@ -137,7 +142,7 @@ public class DataWriter {
                                 unitData.addElement("unit_sequence").setText(Integer.toString(dataSetNo*5+ touchDownNo +1));
                                 unitData.addElement("tester_number").setText(subLot.getTesterName());
                                 unitData.addElement("unit_id").setText(subLot.getMotherLotHead().getShortName() + "_UnitID_" 
-                                        + String.valueOf(subLot.getSubLotUnitStart()*subLot.getMotherLotHead().getSiteCnt()*5 +dataSetNo*5+ touchDownNo +1 + site+1 ));
+                                        + String.valueOf(subLot.getSubLotUnitStart()*subLot.getMotherLotHead().getSiteCnt() +(dataSetNo*5+ touchDownNo)* subLot.getMotherLotHead().getSiteCnt() + site +1));
                                 unitData.addElement("site").setText(String.valueOf(site));
                                 unitData.addElement("dib_id").setText(subLot.getDIB());
                                 unitData.addElement("handler_id").setText(subLot.getHandler());
@@ -157,6 +162,11 @@ public class DataWriter {
                                 unitData.addElement("hard_bin_desc").setText(result.hard_bin_desc);
                                 unitData.addElement("soft_bin").setText(String.valueOf(result.soft_bin));
                                 unitData.addElement("soft_bin_desc").setText(result.soft_bin_desc);
+                                if(result.result.equals("P")){
+                                    subLot.setTotalPassCnt(subLot.getTotalPassCnt()+1);
+                                    System.out.println("total pass cnt is " + subLot.getTotalPassCnt());
+                                }
+                                
 
 
                             }
@@ -169,8 +179,22 @@ public class DataWriter {
                     writer.write(document);
                     writer.close();
                     
-                    System.out.println("successfuly create unitdata file: "+ file.getName());
                     subLot.setCurrentDataSetNo(subLot.getCurrentDataSetNo()+1);
+                    
+                    subLot.setTotalTestedUnits(unitCnts);
+                    double yield=subLot.getTotalPassCnt()/unitCnts;
+                    
+                    
+                    NumberFormat nf = java.text.NumberFormat.getPercentInstance(); 
+                    nf.setMaximumIntegerDigits(2);//小数点前保留几位
+                    nf.setMinimumFractionDigits(2);// 小数点后保留几位
+               
+                    subLot.setYield(nf.format(yield));
+                    if(yield==1.0)
+                        subLot.setYield("100.0%");
+                    System.out.println("successfuly create unitdata file: "+ file.getName() + " for " + subLot.getCurrentDataSetNo() + "/" + subLot.getDataSetCnt() + " yield = " +yield );
+                    
+                    
                 }
                 else
                     System.out.println("failed to create unitdata file: "+ file.getName());
