@@ -186,8 +186,8 @@ public class DataWriter {
                     
                     
                     NumberFormat nf = java.text.NumberFormat.getPercentInstance(); 
-                    nf.setMaximumIntegerDigits(2);//小数点前保留几位
-                    nf.setMinimumFractionDigits(2);// 小数点后保留几位
+                    nf.setMaximumIntegerDigits(2);
+                    nf.setMinimumFractionDigits(2);
                
                     subLot.setYield(nf.format(yield));
                     if(yield==1.0)
