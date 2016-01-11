@@ -34,7 +34,7 @@ public class LotHead {
     private int LotQty=0;
     private int SiteCnt=0;
     private int LotUnitStart=0; //start from 0
-    private int AvgTestTime =0;
+    private double AvgTestTime =0;
     private String ShortName=null;
     
     
@@ -58,7 +58,7 @@ public class LotHead {
     */
     public LotHead(String LotID, String ProductName, String TestProgram, String ProgramVersion,
             String TestCode,String MFGStep, String Device,String Package, 
-            String Facility, int LotQty, int SiteCnt, int LotUnitStart, int AvgTestTime, String shortName){
+            String Facility, int LotQty, int SiteCnt, int LotUnitStart, Double AvgTestTime, String shortName){
         this.LotID=LotID;
         this.ProductName=ProductName;
         this.TestProgram= TestProgram;
@@ -199,7 +199,7 @@ public class LotHead {
         }  
     }
 
-    public int getAvgTestTime() {
+    public double getAvgTestTime() {
         return AvgTestTime;
     }
 

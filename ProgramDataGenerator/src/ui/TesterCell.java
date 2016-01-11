@@ -6,6 +6,7 @@
 package ui;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -113,7 +114,7 @@ public class TesterCell extends Region{
                         LotIDField.setText(subLot.getMotherLotHead().getLotID());
                         TestModeField.setText("Fresh");
                         LotQtyField.setText(String.valueOf(subLot.getSubLotUnitCnt()));
-                        LotStartTimeField.setText(String.valueOf(subLot.getLotStartTime()));
+                        
                         
 //                        Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis(2500),ae ->DataWriter.writeStartLot(this)));
 //           timeLine.setCycleCount(SubLotUnitCnt);
@@ -121,10 +122,20 @@ public class TesterCell extends Region{
                         
                         
                         Tester.startLot(subLot);
+                        LotStartTimeField.setText(String.valueOf(subLot.getLotStartTime()));
                         Timeline timeLine=  new Timeline(new KeyFrame(Duration.millis((subLot.getMotherLotHead().getAvgTestTime()+2)*5*1000),
                                 ae ->Tester.generateUnitData()));
                         timeLine.setCycleCount(subLot.getDataSetCnt());
                         subLot.setLastTestedTime(System.currentTimeMillis());
+                        timeLine.setOnFinished(new EventHandler<ActionEvent>(){
+
+                            @Override
+                            public void handle(ActionEvent event) {
+                                Tester.setStatus(Variables.TesterStatus.Completed);
+                                LotStartTimeField.setText("Test Completed");
+                                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                            }
+                        });
                         timeLine.play();
                         
                         

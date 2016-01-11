@@ -26,7 +26,11 @@ public class Tester {
      */
     public Tester(int testerNo) {
         Status= TesterStatus.Idle;
-        this.TesterName="Sapphire_"+ testerNo;
+        if(testerNo<10)
+            this.TesterName="Sapphire"+ "0" + testerNo;
+        else
+            this.TesterName="Sapphire" + testerNo;
+            
     }
     public String getTesterName() {
         return TesterName;

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.Year;
 import java.util.Calendar;
+import java.util.Random;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.DocumentHelper;
@@ -31,16 +32,16 @@ public class DataWriter {
     public static XMLWriter writer;
     public static File file;
 
-    private static int Random() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     public DataWriter() {
         format.setIndent(true);
         format.setIndentSize(2);
     }
     public static void writeStartLot(SubLot subLot){
-        file = new File(Variables.logPath.getAbsoluteFile()+ "\\" +subLot.getTesterName()+"\\"+ getYYMM()+ "\\" + subLot.getMotherLotHead().getLotID());
+        
+        subLot.setLogPath(Variables.logPath.getAbsoluteFile()+ "\\" +subLot.getTesterName()+"\\"+ getYYMM()+"\\" + subLot.getMotherLotHead().getLotID() );
+        file = new File(subLot.getLogPath());
+        
         if(!file.exists()){
             if(!file.mkdirs())
                 file=null;
@@ -52,14 +53,44 @@ public class DataWriter {
                     writer = new XMLWriter(new FileWriter(file.getAbsolutePath()), format);
                     Document document = DocumentHelper.createDocument();
                     Element root = document.addElement( "StartLot" );
-                    root.addElement("LotStartTime").setText(String.valueOf(subLot.getLotStartTime()));
+                    
+                    /*
+                      <lot_number>WG46424</lot_number>
+                      <tester_number>suzb2sa07a</tester_number>
+                      <test_program>KV2FM2R2DA1CFS0</test_program>
+                      <program_version>tsp</program_version>
+                      <device>5302ALC9</device>
+                      <test_mode>Fresh</test_mode>
+                      <mfg_step>6260</mfg_step>
+                      <test_code>GAKFNP</test_code>
+                      <package>UOF906</package>
+                      <handler_id>SUMC59</handler_id>
+                      <dib_id>AMD_2F-KVFM2UOGC14</dib_id>
+                      <lot_start_time>20160111140006</lot_start_time>
+                      <lot_open_time>20160111135945</lot_open_time>
+                    
+                    */
+                    
+//                    root.addElement("LotStartTime").setText(String.valueOf(subLot.getLotStartTime()));
+                    
                     root.addElement("lot_number").setText(subLot.getMotherLotHead().getLotID());
                     root.addElement("tester_number").setText(subLot.getTesterName());
-                    root.addElement("handler").setText(subLot.getHandler());
-                    root.addElement("device").setText(subLot.getMotherLotHead().getDevice());
-                    root.addElement("test_code").setText(subLot.getMotherLotHead().getTestCode());
                     root.addElement("test_program").setText(subLot.getMotherLotHead().getTestProgram());
                     root.addElement("program_version").setText(subLot.getMotherLotHead().getProgramVersion());
+                    root.addElement("device").setText(subLot.getMotherLotHead().getDevice());
+                    root.addElement("test_mode").setText(subLot.getTestMode());
+                    
+                    root.addElement("mfg_step").setText("MFGStep");
+                    
+                    root.addElement("test_code").setText(subLot.getMotherLotHead().getTestCode());
+                    root.addElement("package").setText(subLot.getMotherLotHead().getPackage());
+                    root.addElement("handler_id").setText(subLot.getHandler());
+                    root.addElement("dib_id").setText(subLot.getDIB());
+                    root.addElement("lot_start_time").setText(subLot.getLotStartTime());
+                    root.addElement("lot_open_time").setText(subLot.getLotStartTime());
+                    
+                    
+                    
                     writer.write(document);
                     writer.close();
                     System.out.println("successfuly create start lot file: "+ file.getName());
@@ -78,7 +109,7 @@ public class DataWriter {
     }
     
     public static void writeUnitData(SubLot subLot){
-        file = new File(Variables.logPath.getAbsoluteFile()+ "\\" +subLot.getTesterName()+"\\"+ getYYMM()+ "\\" + subLot.getMotherLotHead().getLotID());
+        file = new File(subLot.getLogPath());
         if(!file.exists()){
             if(!file.mkdirs())
                 file=null;
@@ -96,46 +127,50 @@ public class DataWriter {
                     int dataSetNo= subLot.getCurrentDataSetNo();
                     long currentTime= System.currentTimeMillis();
                     long endTime=0;
+                    int chuckID= new Random().nextInt(3);
                     for(int touchDownNo=0; touchDownNo!=5 ;touchDownNo++){
-                        for(int site=0;site!=subLot.getMotherLotHead().getSiteCnt();site++){
-                            Element unitData= root.addElement("Unit");
-                            unitData.addElement("unit_sequence").setText(Integer.toString(dataSetNo*5+ touchDownNo +1));
-                            unitData.addElement("tester_number").setText(subLot.getTesterName());
-                            unitData.addElement("unit_id").setText(subLot.getMotherLotHead().getShortName() + "_UnitID_" 
-                                    + String.valueOf(subLot.getSubLotUnitStart()*subLot.getMotherLotHead().getSiteCnt()*5 +dataSetNo*5+ touchDownNo +1 + site ));
-                            unitData.addElement("site").setText(String.valueOf(site));
-                            unitData.addElement("dib_id").setText(subLot.getDIB());
-                            unitData.addElement("handler_id").setText(subLot.getHandler());
-                            unitData.addElement("chuck_id").setText(String.valueOf((Random()*4+1)/1 ));
-                            unitData.addElement("lot_start_time").setText(lotStartTime);
-                            unitData.addElement("start_test_time").setText(String.valueOf(subLot.getLastTestedTime()));
-                            
-                            endTime= (currentTime-subLot.getLastTestedTime())/5+ subLot.getLastTestedTime();
-                            
-                            unitData.addElement("end_test_time").setText(String.valueOf(endTime-2000));
-                            
-                            
+                        if(dataSetNo*5+ touchDownNo+1<=subLot.getSubLotUnitCnt()){
+                            for(int site=0;site!=subLot.getMotherLotHead().getSiteCnt();site++){
+
+
+                                Element unitData= root.addElement("Unit");
+                                unitData.addElement("unit_sequence").setText(Integer.toString(dataSetNo*5+ touchDownNo +1));
+                                unitData.addElement("tester_number").setText(subLot.getTesterName());
+                                unitData.addElement("unit_id").setText(subLot.getMotherLotHead().getShortName() + "_UnitID_" 
+                                        + String.valueOf(subLot.getSubLotUnitStart()*subLot.getMotherLotHead().getSiteCnt()*5 +dataSetNo*5+ touchDownNo +1 + site+1 ));
+                                unitData.addElement("site").setText(String.valueOf(site));
+                                unitData.addElement("dib_id").setText(subLot.getDIB());
+                                unitData.addElement("handler_id").setText(subLot.getHandler());
+                                unitData.addElement("chuck_id").setText(String.valueOf(chuckID));
+                                unitData.addElement("lot_start_time").setText(lotStartTime);
+                                unitData.addElement("start_test_time").setText(String.valueOf(subLot.getLastTestedTime()));
+
+                                endTime= (currentTime-subLot.getLastTestedTime())/5+ subLot.getLastTestedTime();
+
+                                unitData.addElement("end_test_time").setText(String.valueOf(endTime-2000));
+
+                                RandomResult result;
+                                result = new RandomResult(Variables.FirstYield);
+
+                                unitData.addElement("test_result").setText(result.result);
+                                unitData.addElement("hard_bin").setText(String.valueOf(result.hard_bin));
+                                unitData.addElement("hard_bin_desc").setText(result.hard_bin_desc);
+                                unitData.addElement("soft_bin").setText(String.valueOf(result.soft_bin));
+                                unitData.addElement("soft_bin_desc").setText(result.soft_bin_desc);
+
+
+                            }
+                            subLot.setLastTestedTime(endTime);
                         }
-                        subLot.setLastTestedTime(endTime);
                         
                         
                     }
-                    Element unitData= root.addElement("Unit");
-                    
-                    root.addElement("LotStartTime").setText(String.valueOf(subLot.getLotStartTime()));
-                    root.addElement("lot_number").setText(subLot.getMotherLotHead().getLotID());
-                    root.addElement("tester_number").setText(subLot.getTesterName());
-                    root.addElement("handler").setText(subLot.getHandler());
-                    root.addElement("device").setText(subLot.getMotherLotHead().getDevice());
-                    root.addElement("test_code").setText(subLot.getMotherLotHead().getTestCode());
-                    root.addElement("test_program").setText(subLot.getMotherLotHead().getTestProgram());
-                    root.addElement("program_version").setText(subLot.getMotherLotHead().getProgramVersion());
-                    
-                    
+                  
                     writer.write(document);
                     writer.close();
-                    System.out.println("successfuly create unitdata file: "+ file.getName());
                     
+                    System.out.println("successfuly create unitdata file: "+ file.getName());
+                    subLot.setCurrentDataSetNo(subLot.getCurrentDataSetNo()+1);
                 }
                 else
                     System.out.println("failed to create unitdata file: "+ file.getName());
@@ -149,15 +184,42 @@ public class DataWriter {
             System.out.println("failed to create unitdata file: "+ file.getName());
         
     }
-    public class RandomResult{
-        /**
+    public static class RandomResult{
+        /*
         <test_result>F</test_result>
         <hard_bin>14</hard_bin>
         <hard_bin_desc>FAIL Bin 14</hard_bin_desc>
         <soft_bin>14101</soft_bin>
         <soft_bin_desc>PSShortsVdd</soft_bin_desc>
-        * /
-    
+        
+        */
+        public String result=null;
+        public int hard_bin=0;
+        public int soft_bin=0;
+        public String hard_bin_desc=null;
+        public String soft_bin_desc=null;
+
+        public RandomResult(double yield) {
+            double value= new Random().nextDouble();
+            if(value>yield){
+                this.result="F";
+                this.hard_bin= 13+ new Random().nextInt(3);
+                this.soft_bin= 60+ new Random().nextInt(10);
+                this.soft_bin= this.hard_bin*1000+ this.soft_bin;
+                this.soft_bin_desc="Fail Unit, Hard Bin " + this.hard_bin + " soft bin " + this.soft_bin;
+                this.hard_bin_desc="Fail Unit, Hard Bin " + this.hard_bin;
+            }
+            else{
+                this.result="P";
+                this.hard_bin= 1+ new Random().nextInt(3);
+                this.soft_bin= 80+ new Random().nextInt(8);
+                this.soft_bin= this.hard_bin*1000+ this.soft_bin;
+                this.soft_bin_desc="Good Unit, Hard Bin " + this.hard_bin + " soft bin " + this.soft_bin;
+                this.hard_bin_desc="Good Unit, Hard Bin " + this.hard_bin;
+            }
+        }
+        
+        
     }
     public static String getYYMM(){
         Calendar cal = Calendar.getInstance();

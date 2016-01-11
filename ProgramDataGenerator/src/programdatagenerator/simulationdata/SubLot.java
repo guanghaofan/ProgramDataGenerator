@@ -33,6 +33,7 @@ private String LotStartTime=null;
 private int DataSetCnt=0;
 private int CurrentDataSetNo=0;
 private long LastTestedTime=0;
+private String logPath=null;
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
 //    }
@@ -48,7 +49,7 @@ private long LastTestedTime=0;
     
     public void setTesterName(String tester) {
         this.TesterName = tester;
-        setHandler("Handler_"+ tester.split("_")[1]);
+        setHandler("Handler_"+ tester.substring("sapphire".length()));
     }
 
     public String getTesterName() {
@@ -192,6 +193,15 @@ private long LastTestedTime=0;
         return LastTestedTime;
     }
     
+
+    public String getLogPath() {
+        return logPath;
+    }
+
+    public void setLogPath(String logPath) {
+        this.logPath = logPath;
+    }
+    
     public void printSubLot(){
         /*
         private String TesterName=null;   
@@ -216,5 +226,12 @@ private long LastTestedTime=0;
         if(content!=null)
             System.out.println(space + field + " : "+ content);
     }
+    public String getTestMode(){
+        if(this.FreshLot)
+            return "Fresh";
+        else
+            return "Rescreen";
+    }
+    
     
 }
