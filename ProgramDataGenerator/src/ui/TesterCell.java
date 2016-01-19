@@ -135,6 +135,8 @@ public class TesterCell extends Region{
 
                             @Override
                             public void handle(ActionEvent event) {
+                                
+                                
                                 Tester.setStatus(Variables.TesterStatus.Completed);
                                 TesterStatusField.setText("Test Completed");
                                 button.setText("New Lot");

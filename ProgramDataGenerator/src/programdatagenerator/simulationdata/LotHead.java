@@ -130,7 +130,7 @@ public class LotHead {
     public String getTestCode() {
         return TestCode;
     }
-
+    
     public void setTestCode(String TestCode) {
         this.TestCode = TestCode;
     }

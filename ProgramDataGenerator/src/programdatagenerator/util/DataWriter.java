@@ -12,6 +12,8 @@ import java.text.NumberFormat;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import org.dom4j.Document;
@@ -23,6 +25,9 @@ import org.dom4j.ElementPath;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
+import programdatagenerator.simulationdata.CamstarData;
+import programdatagenerator.simulationdata.Lot;
+import programdatagenerator.simulationdata.Product;
 import programdatagenerator.simulationdata.SubLot;
 import programdatagenerator.simulationdata.Variables;
 /**
@@ -41,9 +46,10 @@ public class DataWriter {
         format.setIndentSize(2);
     }
     public static void writeStartLot(SubLot subLot){
-        
-        subLot.setLogPath(Variables.logPath.getAbsoluteFile()+ "\\" +subLot.getTesterName()+"\\"+ getYYMM()+"\\" + subLot.getMotherLotHead().getLotID() );
+        String yymm= getYYMM();
+        subLot.setLogPath(Variables.logPath.getAbsoluteFile()+ "\\" +subLot.getTesterName()+"\\"+ yymm+"\\" + subLot.getMotherLotHead().getLotID() );
         file = new File(subLot.getLogPath());
+        subLot.setYYMM(yymm);
         
         if(!file.exists()){
             if(!file.mkdirs())
@@ -51,7 +57,7 @@ public class DataWriter {
         }
         if(file!=null){
             try {
-                file= new File(file.getAbsoluteFile()+"\\"+"StartLot_"+subLot.getTesterName()+"_"+ subLot.getMotherLotHead().getLotID()+"_"+getCurrentTime()+".xml");
+                file= new File(file.getAbsoluteFile()+"\\"+"StartLot_"+subLot.getTesterName()+"_"+ subLot.getMotherLotHead().getLotID()+"_"+subLot.getLotStartTime()+".xml");
                 if(file.createNewFile()){
                     writer = new XMLWriter(new FileWriter(file.getAbsolutePath()), format);
                     Document document = DocumentHelper.createDocument();
@@ -97,6 +103,7 @@ public class DataWriter {
                     writer.write(document);
                     writer.close();
                     System.out.println("successfuly create start lot file: "+ file.getName());
+                    writeIndicatorFile(subLot);
                     
                 }
                 else
@@ -110,7 +117,52 @@ public class DataWriter {
         else
             System.out.println("failed to create start lot file: "+ file.getName());
     }
-    
+    public static void writeEndLot(SubLot subLot){
+        /*
+        <EndLot>
+        <lot_number>WG46439</lot_number>
+        <tester_number>suzb2sa03a</tester_number>
+        <lot_start_time>20160112015418</lot_start_time>
+        <lot_end_time>20160112022308</lot_end_time>
+        <total_tested_units>60</total_tested_units>
+        <total_log_units>60</total_log_units>
+        <end_lot_unit_sequence>30</end_lot_unit_sequence>
+        <valid_lot>Y</valid_lot>
+      </EndLot>
+        */
+         file = new File(subLot.getLogPath());
+        if(!file.exists()){
+            if(!file.mkdirs())
+                file=null;
+        }
+        if(file!=null){
+            try {
+                file= new File(file.getAbsoluteFile()+"\\"+"EndLot_"+ subLot.getMotherLotHead().getLotID()+ "_" +subLot.getTesterName()+"_"+ subLot.getLotStartTime()+".xml");
+                if(file.createNewFile()){
+                    writer = new XMLWriter(new FileWriter(file.getAbsolutePath()), format);
+                    Document document = DocumentHelper.createDocument();
+                    Element root = document.addElement( "EndLot" );
+                    
+                    root.addElement("lot_number").setText(subLot.getMotherLotHead().getLotID());
+                    root.addElement("tester_number").setText(subLot.getTesterName());
+                    root.addElement("lot_start_time").setText(subLot.getLotStartTime());
+                    root.addElement("lot_end_time").setText(getCurrentTime());
+                    root.addElement("total_tested_units").setText(String.valueOf(subLot.getSubLotUnitCnt()*subLot.getMotherLotHead().getSiteCnt()));
+                    root.addElement("total_log_units").setText(String.valueOf(subLot.getSubLotUnitCnt()*subLot.getMotherLotHead().getSiteCnt()));
+                    root.addElement("end_lot_unit_sequence").setText(String.valueOf(subLot.getSubLotUnitCnt()));
+                    root.addElement("tsp_valid_lot").setText("Y");
+                    writer.write(document);
+                    writer.close();
+                    System.out.println("successfuly create end lot file: "+ file.getName());
+                    writeIndicatorFile(subLot);
+                }
+            }
+            catch(Exception e){}
+        
+        }
+        
+        
+    }
     public static void writeUnitData(SubLot subLot){
         file = new File(subLot.getLogPath());
         if(!file.exists()){
@@ -119,7 +171,7 @@ public class DataWriter {
         }
         if(file!=null){
             try {
-                file= new File(file.getAbsoluteFile()+"\\"+"UnitData_"+subLot.getTesterName()+"_"+ subLot.getMotherLotHead().getLotID()+"_"+getCurrentTime()+".xml");
+                file= new File(file.getAbsoluteFile()+"\\"+"UnitData_"+subLot.getMotherLotHead().getLotID()+"_"+ subLot.getTesterName()+ "_"+getCurrentTime()+ "_"+ subLot.getLotStartTime() + ".xml");
                 if(file.createNewFile()){
                     writer = new XMLWriter(new FileWriter(file.getAbsolutePath()), format);
                     Document document = DocumentHelper.createDocument();
@@ -133,10 +185,10 @@ public class DataWriter {
                     int chuckID= new Random().nextInt(3);
                     int unitCnts=0;
                     for(int touchDownNo=0; touchDownNo!=5 ;touchDownNo++){
-                        unitCnts=(dataSetNo*5+ touchDownNo+1)*subLot.getMotherLotHead().getSiteCnt();
+                        
                         if(dataSetNo*5+ touchDownNo+1<=subLot.getSubLotUnitCnt()){
                             for(int site=0;site!=subLot.getMotherLotHead().getSiteCnt();site++){
-
+                                unitCnts=(dataSetNo*5+ touchDownNo+1)*subLot.getMotherLotHead().getSiteCnt();
 
                                 Element unitData= root.addElement("Unit");
                                 unitData.addElement("unit_sequence").setText(Integer.toString(dataSetNo*5+ touchDownNo +1));
@@ -173,7 +225,7 @@ public class DataWriter {
                             subLot.setLastTestedTime(endTime);
                         }
                         
-                        
+                                                
                     }
                   
                     writer.write(document);
@@ -193,7 +245,7 @@ public class DataWriter {
                     if(yield==1.0)
                         subLot.setYield("100.0%");
                     System.out.println("successfuly create unitdata file: "+ file.getName() + " for " + subLot.getCurrentDataSetNo() + "/" + subLot.getDataSetCnt() + " yield = " +yield );
-                    
+                    writeIndicatorFile(subLot);
                     
                 }
                 else
@@ -203,10 +255,83 @@ public class DataWriter {
                 System.out.println("failed to create unitdata file: "+ file.getName());
                 e.printStackTrace();
             }
+            
+            if(subLot.getCurrentDataSetNo()==subLot.getDataSetCnt()){
+                try {
+                    Thread.sleep(2000);
+                    writeEndLot(subLot);
+                    subLot.setTestCompleted(true);
+                    if(isMotherLotCompleted(subLot)){
+                        new CamstarData(subLot.getMotherLotHead().getLotID(),
+                        subLot.getMotherLotHead().getTestProgram(),
+                        subLot.getMotherLotHead().getProgramVersion(),
+                        subLot.getMotherLotHead().getPackage(),
+                        subLot.getMotherLotHead().getDevice(),
+                        subLot.getMotherLotHead().getTestCode(),
+                        subLot.getMotherLotHead().getMFGStep(),
+                        subLot.getTotalTestedUnits().getValue().toString(),
+                        String.valueOf(subLot.getTotalPassCnt().intValue())).insertCamStarData();
+                        
+                    }
+                    
+//                writeIndicatorFile(subLot);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(DataWriter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
         else
             System.out.println("failed to create unitdata file: "+ file.getName());
         
+    }
+    public static void writeIndicatorFile(SubLot subLot){
+        File file = new File(Variables.logPath+ "//" +"LotList");
+        if(!file.exists()){
+            if(!file.mkdirs())
+                file=null;
+        }
+        File[] files;
+        if(file!=null){
+            files= file.listFiles();
+            boolean find=false;
+            int dirCnt=0;
+            for(File dir: files){
+                if(dir.isDirectory()){ 
+                    dirCnt+=1;
+                    if(dir.listFiles().length<10000){
+                        find=true;
+                        System.out.println("find == true");
+                    }
+                }
+                    
+            }
+            if(!find){
+                if(dirCnt==0){
+                    file= new File(Variables.logPath+ "//" +"LotList" + "//" + "default");
+                }
+                else{
+                    file= new File(Variables.logPath+ "//" +"LotList" + "//" +getCurrentTime() );
+                } 
+            }
+            if(!file.exists()){
+                if(!file.mkdirs())
+                    System.out.println("failed to create log indicator file ");
+            }
+                try {
+                    file=new File(Variables.logPath+ "//" +"LotList" + "//" + "default" +"//" + subLot.getTesterName() +"_"
+                            + subLot.getYYMM()+ "_" + subLot.getMotherLotHead().getLotID()+"_"+getCurrentTime()+".xml");
+                    file.createNewFile();
+                    System.out.println("successfuly create log indicator file "+ file.getName());
+                } catch (IOException ex) {
+                    System.out.println("failed to create log indicator file ");
+                    Logger.getLogger(DataWriter.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+          
+        }
+        else{
+            System.out.println("failed to create log indicator file");
+        }
     }
     public static class RandomResult{
         /*
@@ -284,4 +409,33 @@ public class DataWriter {
          return success;
       
    }
+    
+    public static boolean isMotherLotCompleted(SubLot subLot){
+        boolean complted=true;
+        if(!subLot.isTestCompleted())
+            return false;
+        else{
+            for(Product product: XMLRead.Products){
+                for(Lot lot: product.getRandomLot()){
+                    if(lot.getLotHeadInfo().equals(subLot.getMotherLotHead())){
+                        System.out.println("check lot status .................");
+                        lot.printLotInfo();
+                        for(SubLot _subLot: lot.getSubLots() ){
+                            System.out.println("check sub lot status...");
+                            if(!_subLot.isTestCompleted()){
+                                complted=false;
+                                break;
+                            }
+                            System.out.println("check sub lot status "+ subLot.getMotherLotHead().getLotID() +" : "
+                            + subLot.isTestCompleted());
+                        }
+                        if(complted)
+                            lot.setTestCompleted(true);
+                        break;    
+                    }
+                }
+            }
+            return complted;
+        }
+    }
 }

@@ -7,7 +7,7 @@ and open the template in the editor.
 
 
 <products>
-    <logPath>E:\winscen\tspdata\simulation</logPath>
+    <logPath>\\vsuzatedev02\tspdata\simulation</logPath>
     <testMode>fast</testMode>
     <FirstYield>0.91</FirstYield>
     <RescreenYield>0.5</RescreenYield>
@@ -16,7 +16,7 @@ and open the template in the editor.
     <product name ="Trinity">
         <TestProgram>Trinity_TP</TestProgram>
         <ShortName>TN</ShortName>
-        <AvgTestTime>0.2</AvgTestTime>
+        <AvgTestTime>0.5</AvgTestTime>
         <ProgramVersion>
             <Value>1.2</Value>
             <Value>1.3</Value>
@@ -42,14 +42,14 @@ and open the template in the editor.
             <Value>TN_UOF333</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
-        <LotCnt>1</LotCnt> <!--similation lot count-->
-        <LotQty>68</LotQty><!--simulation unit qty per lot, single site touch down number-->
+        <LotCnt>3</LotCnt> <!--similation lot count-->
+        <LotQty>100</LotQty><!--simulation unit qty per lot, single site touch down number-->
         <SiteCnt>2</SiteCnt>
     </product>
     <product name ="Styx">
         <TestProgram>Styx_TP</TestProgram>
         <ShortName>SX</ShortName>
-        <AvgTestTime>0.1</AvgTestTime>
+        <AvgTestTime>0.8</AvgTestTime>
         <ProgramVersion>
             <Value>2.2</Value>
             <Value>2.3</Value>
@@ -75,15 +75,15 @@ and open the template in the editor.
             <Value>SX_UOF333</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
-        <LotCnt>1</LotCnt> <!--similation lot count-->
-        <LotQty>54</LotQty><!--simulation unit qty per lot-->
+        <LotCnt>2</LotCnt> <!--similation lot count-->
+        <LotQty>800</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>1</SiteCnt>
     </product>
    
     <product name ="Kavari">
         <TestProgram>Kavari_TP</TestProgram>
         <ShortName>KV</ShortName>
-        <AvgTestTime>0.3</AvgTestTime>
+        <AvgTestTime>0.5</AvgTestTime>
         <ProgramVersion>
             <Value>3.2</Value>
             <Value>3.3</Value>
@@ -108,8 +108,8 @@ and open the template in the editor.
             <Value>KV_UOF333</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
-        <LotCnt>1</LotCnt> <!--similation lot count-->
-        <LotQty>39</LotQty><!--simulation unit qty per lot-->
+        <LotCnt>3</LotCnt> <!--similation lot count-->
+        <LotQty>700</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>4</SiteCnt>
     </product>
     

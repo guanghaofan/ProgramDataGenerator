@@ -66,11 +66,19 @@ public class Tester {
     public void resumeTesting(){}
     
     public void generateStartLot(){
+        long logTime= System.currentTimeMillis();
         DataWriter.writeStartLot(subLot);
+        logTime =System.currentTimeMillis()- logTime;
+        System.out.println("write unit data time is " +  logTime);
      // start lot doesn't need a timeline
     }
     public void generateUnitData(){
+        long logTime= System.currentTimeMillis();
+   
+       
         DataWriter.writeUnitData(subLot);
+         logTime =System.currentTimeMillis()- logTime;
+        System.out.println("write unit data time is " +  logTime);
      // start lot doesn't need a timeline
     }
     

@@ -5,18 +5,11 @@
  */
 package programdatagenerator.simulationdata;
 
-import javafx.animation.KeyFrame;
-import programdatagenerator.util.DataWriter;
 import programdatagenerator.util.XMLRead;
-import javafx.animation.Timeline;
-import javafx.animation.TimelineBuilder;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.util.Duration;
 
 /**
  *
@@ -43,6 +36,7 @@ private String logPath=null;
 private IntegerProperty totalTestedUnits =new SimpleIntegerProperty(1);
 private StringProperty yield = new SimpleStringProperty("0.0%");
 private Double totalPassCnt=0.0;
+private String YYMM=null;
 
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
@@ -126,15 +120,17 @@ private Double totalPassCnt=0.0;
     }
     
     private void geneareteStartLotXML(){
-       
-          
-                    
-                    
-            
-            
-                    
-           
         
+    }
+    
+   
+
+    public void setYYMM(String YYMM) {
+        this.YYMM = YYMM;
+    }
+
+    public String getYYMM() {
+        return YYMM;
     }
     
     
