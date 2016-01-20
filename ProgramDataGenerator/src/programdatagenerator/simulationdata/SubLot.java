@@ -5,6 +5,8 @@
  */
 package programdatagenerator.simulationdata;
 
+import java.util.ArrayList;
+import java.util.List;
 import programdatagenerator.util.XMLRead;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -37,6 +39,8 @@ private IntegerProperty totalTestedUnits =new SimpleIntegerProperty(1);
 private StringProperty yield = new SimpleStringProperty("0.0%");
 private Double totalPassCnt=0.0;
 private String YYMM=null;
+private ArrayList<String> rejects= new ArrayList<>();
+private boolean ReadForTesting=false;
 
 //    public SubLot(String tester) {
 //        this.TesterName=tester;
@@ -50,6 +54,37 @@ private String YYMM=null;
         this.DataSetCnt=unitCnt/5;
         if(unitCnt%5!=0)
             this.DataSetCnt+=1;
+        ReadForTesting=true;
+    }
+    public SubLot(int unitCnt, LotHead lotHead, ArrayList<String> rejects) {
+       
+        this.MotherLotHead=lotHead;
+        totalTestedUnits.setValue(0);
+        this.SubLotUnitCnt=unitCnt/this.MotherLotHead.getSiteCnt();
+        if(unitCnt%this.MotherLotHead.getSiteCnt()!=0)
+            this.SubLotUnitCnt+=1;
+        
+     
+        for(String unitID: rejects){
+            System.out.println("add reject to rescreen lot " + unitID);
+            this.rejects.add(unitID);
+        }
+        
+        this.DataSetCnt=SubLotUnitCnt/5;
+        System.out.println("data set count is " + SubLotUnitCnt +"/5 = "+ this.DataSetCnt );
+       
+        System.out.println("data set count is " + SubLotUnitCnt +"/5 = "+ this.DataSetCnt );
+        
+        if(SubLotUnitCnt%5!=0)
+            this.DataSetCnt+=1;
+        System.out.println("data set count is " + this.DataSetCnt);
+        
+        
+        
+        this.FreshLot=false;
+        this.InTesting=false;
+        this.TestCompleted=false;
+        ReadForTesting=true;
     }
     
     public void setTesterName(String tester) {
@@ -235,6 +270,11 @@ private String YYMM=null;
         this.logPath = logPath;
     }
     
+
+    public ArrayList<String> getRejects() {
+        return rejects;
+    }
+    
     public void printSubLot(){
         /*
         private String TesterName=null;   
@@ -265,6 +305,11 @@ private String YYMM=null;
         else
             return "Rescreen";
     }
+
+    public boolean isReadForTesting() {
+        return ReadForTesting;
+    }
+   
     
     
 }

@@ -104,6 +104,7 @@ public class DataWriter {
                     writer.close();
                     System.out.println("successfuly create start lot file: "+ file.getName());
                     writeIndicatorFile(subLot);
+                    subLot.setInTesting(true);
                     
                 }
                 else
@@ -147,8 +148,15 @@ public class DataWriter {
                     root.addElement("tester_number").setText(subLot.getTesterName());
                     root.addElement("lot_start_time").setText(subLot.getLotStartTime());
                     root.addElement("lot_end_time").setText(getCurrentTime());
-                    root.addElement("total_tested_units").setText(String.valueOf(subLot.getSubLotUnitCnt()*subLot.getMotherLotHead().getSiteCnt()));
-                    root.addElement("total_log_units").setText(String.valueOf(subLot.getSubLotUnitCnt()*subLot.getMotherLotHead().getSiteCnt()));
+                    int totalTestedUnits=0;
+                    if(subLot.isFreshLot()){
+                        totalTestedUnits=subLot.getSubLotUnitCnt()*subLot.getMotherLotHead().getSiteCnt();
+                    }
+                    else
+                        totalTestedUnits= subLot.getRejects().size();
+                    root.addElement("total_tested_units").setText(String.valueOf(totalTestedUnits));
+                    root.addElement("total_log_units").setText(String.valueOf(totalTestedUnits));
+                    
                     root.addElement("end_lot_unit_sequence").setText(String.valueOf(subLot.getSubLotUnitCnt()));
                     root.addElement("tsp_valid_lot").setText("Y");
                     writer.write(document);
@@ -159,6 +167,21 @@ public class DataWriter {
             }
             catch(Exception e){}
         
+        }
+        // here start to generate a new sub lot
+        if(!subLot.getRejects().isEmpty()&&(subLot.isFreshLot())){
+             for(Product product: XMLRead.Products){
+                for(Lot lot: product.getRandomLot()){
+                    if(lot.getLotHeadInfo().equals(subLot.getMotherLotHead())){
+                       System.out.println("generate new sublot for rejects in lot " + lot.getLotHeadInfo().getLotID());
+                       lot.getSubLots().add(new SubLot(subLot.getRejects().size(), subLot.getMotherLotHead(),subLot.getRejects()));
+                       for(String unitID: subLot.getRejects())
+                           System.out.println("add Unit " + unitID);
+                       subLot.getRejects().clear();
+                    }
+                }
+            }
+            
         }
         
         
@@ -184,17 +207,31 @@ public class DataWriter {
                     long endTime=0;
                     int chuckID= new Random().nextInt(3);
                     int unitCnts=0;
+                    int unitNoInSubLot =0;
                     for(int touchDownNo=0; touchDownNo!=5 ;touchDownNo++){
                         
-                        if(dataSetNo*5+ touchDownNo+1<=subLot.getSubLotUnitCnt()){
+                        if(!subLot.isFreshLot()||(subLot.isFreshLot() && dataSetNo*5+ touchDownNo+1<=subLot.getSubLotUnitCnt())){
+                            
                             for(int site=0;site!=subLot.getMotherLotHead().getSiteCnt();site++){
+                                unitNoInSubLot =(dataSetNo*5+ touchDownNo)* subLot.getMotherLotHead().getSiteCnt() + site +1;
+                                if((!subLot.isFreshLot())&&(unitNoInSubLot>subLot.getRejects().size()))
+                                    break;
+                                if(!subLot.isFreshLot())
+                                    System.out.println("re-test reject " + subLot.getRejects().get(unitNoInSubLot-1));
                                 unitCnts=(dataSetNo*5+ touchDownNo+1)*subLot.getMotherLotHead().getSiteCnt();
+                                if(!subLot.isFreshLot())
+                                    unitCnts=unitNoInSubLot;
 
                                 Element unitData= root.addElement("Unit");
                                 unitData.addElement("unit_sequence").setText(Integer.toString(dataSetNo*5+ touchDownNo +1));
                                 unitData.addElement("tester_number").setText(subLot.getTesterName());
-                                unitData.addElement("unit_id").setText(subLot.getMotherLotHead().getShortName() + "_UnitID_" 
-                                        + String.valueOf(subLot.getSubLotUnitStart()*subLot.getMotherLotHead().getSiteCnt() +(dataSetNo*5+ touchDownNo)* subLot.getMotherLotHead().getSiteCnt() + site +1));
+                                String unitID=subLot.getMotherLotHead().getShortName() + "_UnitID_" 
+                                        + String.valueOf(subLot.getSubLotUnitStart()*subLot.getMotherLotHead().getSiteCnt()+
+                                                (dataSetNo*5+ touchDownNo)* subLot.getMotherLotHead().getSiteCnt() + site +1);
+                                if(subLot.isFreshLot())
+                                    unitData.addElement("unit_id").setText(unitID);
+                                else
+                                    unitData.addElement("unit_id").setText(subLot.getRejects().get(unitNoInSubLot-1));
                                 unitData.addElement("site").setText(String.valueOf(site));
                                 unitData.addElement("dib_id").setText(subLot.getDIB());
                                 unitData.addElement("handler_id").setText(subLot.getHandler());
@@ -207,13 +244,20 @@ public class DataWriter {
                                 unitData.addElement("end_test_time").setText(String.valueOf(endTime-2000));
 
                                 RandomResult result;
-                                result = new RandomResult(Variables.FirstYield);
+                                if(subLot.isFreshLot())
+                                    result = new RandomResult(Variables.FirstYield);
+                                else
+                                    result = new RandomResult(Variables.RescreenYield);
 
                                 unitData.addElement("test_result").setText(result.result);
                                 unitData.addElement("hard_bin").setText(String.valueOf(result.hard_bin));
                                 unitData.addElement("hard_bin_desc").setText(result.hard_bin_desc);
                                 unitData.addElement("soft_bin").setText(String.valueOf(result.soft_bin));
                                 unitData.addElement("soft_bin_desc").setText(result.soft_bin_desc);
+                                if(subLot.isFreshLot() && result.result.equals("F")){
+                                    subLot.getRejects().add(unitID);
+                                }
+                                
                                 if(result.result.equals("P")){
                                     subLot.setTotalPassCnt(subLot.getTotalPassCnt()+1);
                                     System.out.println("total pass cnt is " + subLot.getTotalPassCnt());
@@ -232,8 +276,11 @@ public class DataWriter {
                     writer.close();
                     
                     subLot.setCurrentDataSetNo(subLot.getCurrentDataSetNo()+1);
-                    
+//                    if(!subLot.isFreshLot())
+//                        unitCnts=unitNoInSubLot;
+                     
                     subLot.setTotalTestedUnits(unitCnts);
+                    
                     double yield=subLot.getTotalPassCnt()/unitCnts;
                     
                     
@@ -261,6 +308,8 @@ public class DataWriter {
                     Thread.sleep(2000);
                     writeEndLot(subLot);
                     subLot.setTestCompleted(true);
+                    subLot.setInTesting(false);
+                   
                     if(isMotherLotCompleted(subLot)){
                         new CamstarData(subLot.getMotherLotHead().getLotID(),
                         subLot.getMotherLotHead().getTestProgram(),
@@ -281,7 +330,7 @@ public class DataWriter {
             }
         }
         else
-            System.out.println("failed to create unitdata file: "+ file.getName());
+            System.out.println("failed to create unitdata file: "+ subLot.getLogPath());
         
     }
     public static void writeIndicatorFile(SubLot subLot){
@@ -421,16 +470,21 @@ public class DataWriter {
                         System.out.println("check lot status .................");
                         lot.printLotInfo();
                         for(SubLot _subLot: lot.getSubLots() ){
-                            System.out.println("check sub lot status...");
+//                            System.out.println("check sub lot status...");
                             if(!_subLot.isTestCompleted()){
                                 complted=false;
                                 break;
                             }
-                            System.out.println("check sub lot status "+ subLot.getMotherLotHead().getLotID() +" : "
-                            + subLot.isTestCompleted());
+//                            System.out.println("check sub lot status "+ subLot.getMotherLotHead().getLotID() +" : "
+//                            + subLot.isTestCompleted());
                         }
-                        if(complted)
+                        if(complted){
                             lot.setTestCompleted(true);
+                            System.out.println("mother lot " + lot.getLotHeadInfo().getLotID() + " testing completed");
+                        }
+                        else{
+                            System.out.println("mother lot " + lot.getLotHeadInfo().getLotID() + " testing incompleted");
+                        }
                         break;    
                     }
                 }

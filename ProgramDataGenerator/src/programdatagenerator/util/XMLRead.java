@@ -192,8 +192,15 @@ public class XMLRead {
                         System.out.println("get next lot: " + lot.getLotHeadInfo().getLotID() + " for product " + CurrentProduct);
                         
                         for(SubLot subLot:lot.getSubLots()){
-                            if(subLot.isFreshLot() &&(!subLot.isTestCompleted())&&(!subLot.isInTesting())){
+                            if((!subLot.isTestCompleted())&&(!subLot.isInTesting())&& subLot.isReadForTesting()){
                                 getLot=true;
+                                if(!subLot.isFreshLot()){
+                                    System.out.println("succesfully get next rescreen sub lot ");
+                                    for(String unitID: subLot.getRejects())
+                                        System.out.println("unit "  + unitID);
+                                    System.out.println("total units cnt " + subLot.getSubLotUnitCnt());
+                                    System.out.println("data set count " + subLot.getDataSetCnt());
+                                }
                                 return subLot;
                             }
                         

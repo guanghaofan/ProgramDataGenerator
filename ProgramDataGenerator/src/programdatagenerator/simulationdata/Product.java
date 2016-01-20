@@ -99,22 +99,28 @@ public class Product {
                         for(int mfgStep=0; mfgStep!= this.MFGStep.size();mfgStep++){
                             for(int r=0; r!= this.LotCnt;r++){
 
-                                if(LotNo<10){
-                                    LotID=this.ShortName+ "00" + String.valueOf(LotNo);
+                                try {
+                                    if(LotNo<10){
+                                        LotID=this.ShortName+ "00" + String.valueOf(LotNo);
+                                    }
+                                    else if(LotNo<99){
+                                        LotID=this.ShortName+ "0" + String.valueOf(LotNo);
+                                    }
+                                    else
+                                        LotID=this.ShortName + String.valueOf(LotNo);
+                                    LotID+=String.valueOf(System.currentTimeMillis());
+                                    Thread.sleep(10);
+                                    
+                                    int lotQty= (int) (this.getLotQty() + random()*30);
+                                    
+                                    this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
+                                            this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep.get(mfgStep), this.Device,
+                                            this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
+                                    LotNo++;
+                                    TotalUnitCnt+=lotQty;
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                                else if(LotNo<99){
-                                    LotID=this.ShortName+ "0" + String.valueOf(LotNo);
-                                }
-                                else
-                                    LotID=this.ShortName + String.valueOf(LotNo);
-
-                                int lotQty= (int) (this.getLotQty() + random()*30);
-
-                                this.RandomLot.add(new Lot( new LotHead(LotID, this.ProductName, this.TestProgram,
-                                this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep.get(mfgStep), this.Device,
-                                this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
-                                LotNo++;
-                                TotalUnitCnt+=lotQty;
                             }
                         }
                     }
@@ -279,8 +285,13 @@ public class Product {
     
     
     public static void main(String[] argc){
+        int x=4;
+        int z=5;
+        int y=x/5;
+        System.out.println(y);
+        System.exit(1);
         File file = new File("./doc/product.xml");
-        if(file.exists()){
+        if(!file.exists()){
             SAXReader reader = new SAXReader();
             reader.setValidation(false);
             Document document = null;

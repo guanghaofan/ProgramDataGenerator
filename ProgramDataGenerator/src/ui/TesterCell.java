@@ -82,6 +82,9 @@ public class TesterCell extends Region{
 
             @Override
             public void handle(Event t) {
+                button.setDisable(true);
+                try{
+             
                 if(Tester.getStatus().equals(Variables.TesterStatus.Paused)){
                     Tester.setStatus(Variables.TesterStatus.Testing);
                     TesterStatusField.setText("Testing");
@@ -115,8 +118,21 @@ public class TesterCell extends Region{
                         
                         ProductField.setText(subLot.getMotherLotHead().getProductName());
                         LotIDField.setText(subLot.getMotherLotHead().getLotID());
-                        TestModeField.setText("Fresh");
-                        LotQtyField.setText(String.valueOf(subLot.getSubLotUnitCnt()* subLot.getMotherLotHead().getSiteCnt()));
+                        String testMode=null;
+                        int lotQty=0;
+                        if(subLot.isFreshLot()){
+                            testMode="Fresh";
+                            lotQty= subLot.getSubLotUnitCnt()* subLot.getMotherLotHead().getSiteCnt();
+                        }
+                        else{
+                            testMode="Rescreen";
+                            lotQty= subLot.getRejects().size();
+                        }
+                        
+                        TestModeField.setText(testMode);
+                        
+                        LotQtyField.setText(String.valueOf(lotQty));
+                        
                         TestedUnitsField.textProperty().bind(subLot.getTotalTestedUnits().asString());
                         YieldField.textProperty().bind(subLot.getYield());
                         
@@ -152,9 +168,18 @@ public class TesterCell extends Region{
                     
                     
                 }
+                button.setDisable(false);
+            }catch(Exception e){
+                e.printStackTrace();
+                button.setDisable(false);
+            }
+      
 
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
+            
+      
+                
         });
 //        getChildren().addAll(StatusButton,StatusLabel);
         
