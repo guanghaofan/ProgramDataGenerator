@@ -20,5 +20,6 @@ public class Variables {
     public static double RescreenYield=0.5;
     public static double FinalYield=0.98;
     public static int TesterCnt=12;
+    public static boolean UpdateCamStar=false;
       
 }

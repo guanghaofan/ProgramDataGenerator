@@ -117,7 +117,7 @@ public class Product {
                                             this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep.get(mfgStep), this.Device,
                                             this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
                                     LotNo++;
-                                    TotalUnitCnt+=lotQty;
+                                    TotalUnitCnt+=lotQty* this.SiteCnt;
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
                                 }

@@ -128,6 +128,7 @@ public class XMLRead {
                     row.detach();
                 }
             });
+            
             reader.addHandler("/products/testMode",new ElementHandler() {
                 @Override
                 public void onStart(ElementPath path) {
@@ -142,6 +143,21 @@ public class XMLRead {
                     else
                         Variables.simulationMode=Variables.TestMode.realTime;
                
+                    row.detach();
+                }
+            });
+            reader.addHandler("/products/UpdateCamStar",new ElementHandler() {
+                @Override
+                public void onStart(ElementPath path) {
+                }
+                @Override
+                public void onEnd(ElementPath path) {
+                    // process a ROW element
+                    Element row = path.getCurrent();                    
+                    if(row.getText()!=null && row.getText().equalsIgnoreCase("true")){
+                        Variables.UpdateCamStar=true;
+                    }
+           
                     row.detach();
                 }
             });

@@ -7,12 +7,14 @@ and open the template in the editor.
 
 
 <products>
-    <logPath>\\vsuzatedev02\tspdata\simulation</logPath>
+    <!--logPath>\\vsuzatedev02\tspdata\simulation</logPath-->
+    <logPath>E:\tspdata\simulation</logPath>
     <testMode>fast</testMode>
     <FirstYield>0.88</FirstYield>
     <RescreenYield>0.7</RescreenYield>
     <FinalYield>0.98</FinalYield>
     <TesterCnt>6</TesterCnt>
+    <UpdateCamStar>true</UpdateCamStar>
     <product name ="Trinity">
         <TestProgram>Trinity_TP</TestProgram>
         <ShortName>TN</ShortName>
@@ -22,6 +24,12 @@ and open the template in the editor.
             <Value>1.3</Value>
             <Value>1.4</Value>
             <Value>1.5</Value>
+            <Value>1.6</Value>
+            <Value>1.7</Value>
+            <Value>1.8</Value>
+            <Value>1.9</Value>
+            <Value>2.0</Value>
+            <Value>2.1</Value>
         </ProgramVersion>
         <TestCode>
             <Value>TN_ABCDEF</Value>
@@ -33,17 +41,20 @@ and open the template in the editor.
 	<MFGStep>
             <Value>TN-Step6666</Value>
             <Value>TN-Step8888</Value>      
-            <Value>TN-Step9999</Value>  
+            <Value>TN-Step9999</Value>
+            <Value>TN-Step7777</Value>
+            <Value>TN-Step5555</Value>      
         </MFGStep>
 	<Device>TN-8888D</Device>
 	<Package>
             <Value>TN_UOF111</Value>
             <Value>TN_UOF222</Value>
             <Value>TN_UOF333</Value>
+            <Value>TN_UOF4444</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
         <LotCnt>1</LotCnt> <!--similation lot count-->
-        <LotQty>50</LotQty><!--simulation unit qty per lot, single site touch down number-->
+        <LotQty>1500</LotQty><!--simulation unit qty per lot, single site touch down number-->
         <SiteCnt>2</SiteCnt>
     </product>
     <product name ="Styx">
@@ -55,6 +66,22 @@ and open the template in the editor.
             <Value>2.3</Value>
             <Value>2.4</Value>
             <Value>2.5</Value>
+            <Value>2.6</Value>
+            <Value>2.7</Value>
+            <Value>2.8</Value>
+            <Value>2.9</Value>
+            <Value>3.0</Value>
+            <Value>3.1</Value>
+            <Value>3.2</Value>
+            <Value>3.3</Value>
+            <Value>3.4</Value>
+            <Value>3.5</Value>
+            <Value>3.6</Value>
+            <Value>3.7</Value>
+            <Value>3.8</Value>
+            <Value>3.9</Value>
+            <Value>4.0</Value>
+
         </ProgramVersion>
         <TestCode>
             <Value>SX_ABCDEF</Value>
@@ -66,17 +93,26 @@ and open the template in the editor.
 	<MFGStep>
             <Value>SX-Step6666</Value>
             <Value>SX-Step8888</Value>      
-            <Value>SX-Step9999</Value>  
+            <Value>SX-Step9999</Value>
+            <Value>SX-Step7777</Value>
+            <Value>SX-Step5555</Value>
+            <Value>SX-Step4444</Value>        
         </MFGStep>
 	<Device>SX-8888D</Device>
 	<Package>
             <Value>SX_UOF111</Value>
             <Value>SX_UOF222</Value>
             <Value>SX_UOF333</Value>
+            <Value>SX_UOF444</Value>
+            <Value>SX_UOF555</Value>
+            <Value>SX_UOF666</Value>
+            <Value>SX_UOF777</Value>
+            <Value>SX_UOF888</Value>
+            <Value>SX_UOF999</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
         <LotCnt>1</LotCnt> <!--similation lot count-->
-        <LotQty>30</LotQty><!--simulation unit qty per lot-->
+        <LotQty>1500</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>1</SiteCnt>
     </product>
    
@@ -89,6 +125,14 @@ and open the template in the editor.
             <Value>3.3</Value>
             <Value>3.4</Value>
             <Value>3.5</Value>
+            <Value>2.2</Value>
+            <Value>2.3</Value>
+            <Value>2.4</Value>
+            <Value>2.5</Value>
+            <Value>1.2</Value>
+            <Value>1.3</Value>
+            <Value>1.4</Value>
+            <Value>1.5</Value>
         </ProgramVersion>
         <TestCode>
             <Value>KV_ABCDEF</Value>
@@ -99,18 +143,115 @@ and open the template in the editor.
 
 	<MFGStep>
             <Value>KV-Step6666</Value>
-            
+            <Value>KV-Step7777</Value>
+            <Value>KV-Step8888</Value>
+            <Value>KV-Step9999</Value>
+            <Value>KV-Step5555</Value>
+            <Value>KV-Step4444</Value>
+            <Value>KV-Step3333</Value>
+            <Value>KV-Step2222</Value>
+            <Value>KV-Step1111</Value>
         </MFGStep>
 	<Device>KV-8888D</Device>
 	<Package>
             <Value>KV_UOF111</Value>
             <Value>KV_UOF222</Value>
             <Value>KV_UOF333</Value>
+            <Value>KV_UOF444</Value>
+            <Value>KV_UOF555</Value>
+            <Value>KV_UOF666</Value>
+            <Value>KV_UOF777</Value>
+            <Value>KV_UOF888</Value>
+            <Value>KV_UOF999</Value>
         </Package>
 	<Facility>SUZHOU</Facility>
         <LotCnt>1</LotCnt> <!--similation lot count-->
-        <LotQty>70</LotQty><!--simulation unit qty per lot-->
+        <LotQty>2000</LotQty><!--simulation unit qty per lot-->
         <SiteCnt>4</SiteCnt>
+    </product>
+    <product name ="BMW">
+        <TestProgram>BMW_TP</TestProgram>
+        <ShorBMWame>BMW</ShorBMWame>
+        <AvgTestTime>0.1</AvgTestTime>
+        <ProgramVersion>
+            <Value>1.2</Value>
+            <Value>1.3</Value>
+            <Value>1.4</Value>
+            <Value>1.5</Value>
+            <Value>1.6</Value>
+            <Value>1.7</Value>
+            <Value>1.8</Value>
+            <Value>1.9</Value>
+            <Value>2.0</Value>
+            <Value>2.1</Value>
+        </ProgramVersion>
+        <TestCode>
+            <Value>BMW_ABCDEF</Value>
+            <Value>BMW_AACDEE</Value>
+            <Value>BMW_ADCDEF</Value>
+            <Value>BMW_AFCDEF</Value>
+        </TestCode>
+
+	<MFGStep>
+            <Value>BMW-Step6666</Value>
+            <Value>BMW-Step8888</Value>      
+            <Value>BMW-Step9999</Value>
+            <Value>BMW-Step7777</Value>
+            <Value>BMW-Step5555</Value>      
+        </MFGStep>
+	<Device>BMW-8888D</Device>
+	<Package>
+            <Value>BMW_UOF111</Value>
+            <Value>BMW_UOF222</Value>
+            <Value>BMW_UOF333</Value>
+            <Value>BMW_UOF4444</Value>
+        </Package>
+	<Facility>SUZHOU</Facility>
+        <LotCnt>1</LotCnt> <!--similation lot count-->
+        <LotQty>900</LotQty><!--simulation unit qty per lot, single site touch down number-->
+        <SiteCnt>2</SiteCnt>
+    </product>
+    <product name ="Panther">
+        <TestProgram>PR_TP</TestProgram>
+        <ShorPRame>PR</ShorPRame>
+        <AvgTestTime>0.1</AvgTestTime>
+        <ProgramVersion>
+            <Value>1.2</Value>
+            <Value>1.3</Value>
+            <Value>1.4</Value>
+            <Value>1.5</Value>
+            <Value>1.6</Value>
+            <Value>1.7</Value>
+            <Value>1.8</Value>
+            <Value>1.9</Value>
+            <Value>2.0</Value>
+            <Value>2.1</Value>
+        </ProgramVersion>
+        <TestCode>
+            <Value>PR_ABCDEF</Value>
+            <Value>PR_AACDEE</Value>
+            <Value>PR_ADCDEF</Value>
+            <Value>PR_AFCDEF</Value>
+        </TestCode>
+
+	<MFGStep>
+            <Value>PR-Step6666</Value>
+            <Value>PR-Step8888</Value>      
+            <Value>PR-Step9999</Value>
+            <Value>PR-Step7777</Value>
+            <Value>PR-Step5555</Value>      
+        </MFGStep>
+	<Device>PR-8888D</Device>
+	<Package>
+            <Value>PR_UOF111</Value>
+            <Value>PR_UOF222</Value>
+            <Value>PR_UOF333</Value>
+            <Value>PR_UOF4444</Value>
+        </Package>
+	<Facility>SUZHOU</Facility>
+        <LotCnt>1</LotCnt> <!--similation lot count-->
+        <LotQty>800</LotQty><!--simulation unit qty per lot, single site touch down number-->
+        <SiteCnt>2</SiteCnt>
     </product>
     
     

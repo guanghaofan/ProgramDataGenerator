@@ -5,6 +5,8 @@
  */
 package ui;
 import java.text.Format;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -27,6 +29,7 @@ import programdatagenerator.simulationdata.Variables;
 
 import org.controlsfx.tools.Borders;
 import programdatagenerator.simulationdata.SubLot;
+import programdatagenerator.simulationdata.Variables.TestMode;
 import programdatagenerator.util.DataWriter;
 import programdatagenerator.util.XMLRead;
 
@@ -143,7 +146,7 @@ public class TesterCell extends Region{
                         
                         Tester.startLot(subLot);
                         LotStartTimeField.setText(String.valueOf(subLot.getLotStartTime()));
-                        timeLine=  new Timeline(new KeyFrame(Duration.millis((subLot.getMotherLotHead().getAvgTestTime()+2)*5*1000),
+                        timeLine=  new Timeline(new KeyFrame(Duration.millis((subLot.getMotherLotHead().getAvgTestTime()+1)*5*1000),
                                 ae ->Tester.generateUnitData()));
                         timeLine.setCycleCount(subLot.getDataSetCnt());
                         subLot.setLastTestedTime(System.currentTimeMillis());
@@ -157,7 +160,9 @@ public class TesterCell extends Region{
                                 TesterStatusField.setText("Test Completed");
                                 button.setText("New Lot");
                                 
-                                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                                if(Variables.simulationMode.equals(TestMode.realTime)){
+                                    button.fire();
+                                }
                             }
                         });
                         

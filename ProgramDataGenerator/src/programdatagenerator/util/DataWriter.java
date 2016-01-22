@@ -311,16 +311,17 @@ public class DataWriter {
                     subLot.setInTesting(false);
                    
                     if(isMotherLotCompleted(subLot)){
-                        new CamstarData(subLot.getMotherLotHead().getLotID(),
-                        subLot.getMotherLotHead().getTestProgram(),
-                        subLot.getMotherLotHead().getProgramVersion(),
-                        subLot.getMotherLotHead().getPackage(),
-                        subLot.getMotherLotHead().getDevice(),
-                        subLot.getMotherLotHead().getTestCode(),
-                        subLot.getMotherLotHead().getMFGStep(),
-                        subLot.getTotalTestedUnits().getValue().toString(),
-                        String.valueOf(subLot.getTotalPassCnt().intValue())).insertCamStarData();
-                        
+                        if(Variables.UpdateCamStar){
+                            new CamstarData(subLot.getMotherLotHead().getLotID(),
+                            subLot.getMotherLotHead().getTestProgram(),
+                            subLot.getMotherLotHead().getProgramVersion(),
+                            subLot.getMotherLotHead().getPackage(),
+                            subLot.getMotherLotHead().getDevice(),
+                            subLot.getMotherLotHead().getTestCode(),
+                            subLot.getMotherLotHead().getMFGStep(),
+                            subLot.getTotalTestedUnits().getValue().toString(),
+                            String.valueOf(subLot.getTotalPassCnt().intValue())).insertCamStarData();
+                        }
                     }
                     
 //                writeIndicatorFile(subLot);
