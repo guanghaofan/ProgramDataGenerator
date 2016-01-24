@@ -13,6 +13,8 @@
               <fx:fileset dir="${basedir}/${dist.dir}"
                           includes="*.jar"/>
               <fx:fileset dir="dist" includes="lib/*.jar"/>
+              <fx:fileset dir="${basedir}" 
+                          includes="doc/*"/>
              
           </fx:resources>
           <fx:platform>

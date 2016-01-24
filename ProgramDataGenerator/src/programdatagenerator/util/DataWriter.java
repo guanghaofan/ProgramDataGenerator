@@ -352,7 +352,7 @@ public class DataWriter {
                 if(dir.isDirectory()){
                     System.out.print("dir name is "+ dir.getName());
                     dirCnt+=1;
-                    if(dir.listFiles().length<10){
+                    if(dir.listFiles().length<10000){
                         find=true;
                         System.out.println("find == true");
                         file=dir;

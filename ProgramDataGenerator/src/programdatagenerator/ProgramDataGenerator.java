@@ -60,7 +60,7 @@ public class ProgramDataGenerator extends Application {
             for(Product myProduct: Products){
                 TotalUnitCnt+= myProduct.getTotalUnitCnt()*myProduct.getSiteCnt();
                 TreeItem productItem = new TreeItem(myProduct.getProductName());
-                productItem.getChildren().add( new TreeItem("Total Qty: "+ myProduct.getTotalUnitCnt()*myProduct.getSiteCnt()));
+                productItem.getChildren().add( new TreeItem("Product Total Qty: "+ myProduct.getTotalUnitCnt()*myProduct.getSiteCnt()));
                 for(Lot lot: myProduct.getRandomLot()){
                     TreeItem lotItem = new TreeItem(lot.getLotHeadInfo().getLotID());
                     productItem.getChildren().add(lotItem);
@@ -72,16 +72,19 @@ public class ProgramDataGenerator extends Application {
                 }
 //                myProduct.printProductInfo();
 //                myProduct.printRandomLotHeadInfo();
-                rootItem.getChildren().add(productItem);
-                rootItem.getChildren().add( new TreeItem("Total Qty: " + TotalUnitCnt));
                 TreeItem totalTestedUnits= new TreeItem();
                 TreeItem unitCntItem= new TreeItem("TotalTestedUnits");
                 totalTestedUnits.valueProperty().bind(myProduct.getTotalTestedUnits());
-                rootItem.getChildren().add(unitCntItem);
+                productItem.getChildren().add(unitCntItem);
                 unitCntItem.getChildren().add(totalTestedUnits);
+
+                rootItem.getChildren().add(productItem);
+                
                 
 
             }
+            rootItem.getChildren().add( new TreeItem("All Products Total Qty: " + TotalUnitCnt));
+            
         }
         summaryView.setShowRoot(true);
         

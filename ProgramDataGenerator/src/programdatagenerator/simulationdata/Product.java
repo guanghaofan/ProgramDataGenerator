@@ -290,7 +290,7 @@ public class Product {
         System.out.println("LotCnt: "+ this.LotCnt);
         System.out.println("LotQty: "+ this.LotQty);
         System.out.println("SiteCnt: "+ this.SiteCnt);
-        System.out.println("TotalUnitCnt: "+ this.TotalUnitCnt);
+        System.out.println("TotalUnitCnt: "+ this.TotalUnitCnt*2);
         
     }
     

@@ -99,7 +99,7 @@ and open the template in the editor.
 	<Facility>SUZHOU</Facility>
         <LotCnt>2</LotCnt> 
         <LotQty>1500</LotQty>
-        <SiteCnt>2</SiteCnt>
+        <SiteCnt>1</SiteCnt>
     </product>
    
     <product name ="Kavari">
@@ -152,7 +152,7 @@ and open the template in the editor.
     </product>
     <product name ="BMW">
         <TestProgram>BMW_TP</TestProgram>
-        <ShorBMWame>BMW</ShorBMWame>
+        <ShortName>BMW</ShortName>
         <AvgTestTime>0.1</AvgTestTime>
         <ProgramVersion>
             <Value>1.2</Value>
@@ -194,7 +194,7 @@ and open the template in the editor.
     </product>
     <product name ="Panther">
         <TestProgram>PR_TP</TestProgram>
-        <ShorPRame>PR</ShorPRame>
+        <ShortName>PR</ShortName>
         <AvgTestTime>0.1</AvgTestTime>
         <ProgramVersion>
             <Value>1.2</Value>
@@ -232,7 +232,7 @@ and open the template in the editor.
 	<Facility>SUZHOU</Facility>
         <LotCnt>1</LotCnt>
         <LotQty>1000</LotQty>
-        <SiteCnt>2</SiteCnt>
+        <SiteCnt>4</SiteCnt>
     </product>
     
     
