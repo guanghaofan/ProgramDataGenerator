@@ -30,6 +30,7 @@ import programdatagenerator.simulationdata.Lot;
 import programdatagenerator.simulationdata.Product;
 import programdatagenerator.simulationdata.SubLot;
 import programdatagenerator.simulationdata.Variables;
+import programdatagenerator.simulationdata.Variables.TestMode;
 /**
  *
  * @author Administrator
@@ -292,7 +293,8 @@ public class DataWriter {
                     if(yield==1.0)
                         subLot.setYield("100.0%");
                     System.out.println("successfuly create unitdata file: "+ file.getName() + " for " + subLot.getCurrentDataSetNo() + "/" + subLot.getDataSetCnt() + " yield = " +yield );
-                    writeIndicatorFile(subLot);
+                    if(Variables.simulationMode.equals(TestMode.realTime))
+                        writeIndicatorFile(subLot);
                     
                 }
                 else
@@ -345,13 +347,19 @@ public class DataWriter {
             files= file.listFiles();
             boolean find=false;
             int dirCnt=0;
-            for(File dir: files){
-                if(dir.isDirectory()){ 
+            for(int loopNo = files.length-1;loopNo!=-1;loopNo--){
+                File dir= files[loopNo];
+                if(dir.isDirectory()){
+                    System.out.print("dir name is "+ dir.getName());
                     dirCnt+=1;
-                    if(dir.listFiles().length<10000){
+                    if(dir.listFiles().length<10){
                         find=true;
                         System.out.println("find == true");
+                        file=dir;
+                        break;
                     }
+                    else
+                        System.out.println(", but it's too large");
                 }
                     
             }
@@ -368,7 +376,7 @@ public class DataWriter {
                     System.out.println("failed to create log indicator file ");
             }
                 try {
-                    file=new File(Variables.logPath+ "//" +"LotList" + "//" + "default" +"//" + subLot.getTesterName() +"_"
+                    file=new File(file.getAbsolutePath() +"//" + subLot.getTesterName() +"_"
                             + subLot.getYYMM()+ "_" + subLot.getMotherLotHead().getLotID()+"_"+getCurrentTime()+".xml");
                     file.createNewFile();
                     System.out.println("successfuly create log indicator file "+ file.getName());
@@ -482,6 +490,8 @@ public class DataWriter {
                         if(complted){
                             lot.setTestCompleted(true);
                             System.out.println("mother lot " + lot.getLotHeadInfo().getLotID() + " testing completed");
+                            lot.getStatus().setValue("Tesing completed");
+                            product.getTotalTestedUnits().setValue(String.valueOf(Long.parseLong(product.getTotalTestedUnits().getValue())+lot.getLotHeadInfo().getLotQty()*lot.getLotHeadInfo().getSiteCnt()));
                         }
                         else{
                             System.out.println("mother lot " + lot.getLotHeadInfo().getLotID() + " testing incompleted");

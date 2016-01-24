@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -39,6 +42,8 @@ public class Product {
     private int SiteCnt=0;
     private int TotalDIBCnt=0;
     private int TotalUnitCnt=0;
+    private StringProperty TotalTestedUnits = new SimpleStringProperty("0");
+    
     
     private List<Lot> RandomLot= new ArrayList<>();
     private Double AvgTestTime=0.0;
@@ -46,6 +51,8 @@ public class Product {
 
     @SuppressWarnings("empty-statement")
     public Product(Element element) {
+        
+
         List<Element> nodes= element.elements();
         if(!nodes.isEmpty()){
             this.ProductName=element.attributeValue("name");
@@ -117,7 +124,7 @@ public class Product {
                                             this.ProgramVersion.get(i), this.TestCode.get(j),this.MFGStep.get(mfgStep), this.Device,
                                             this.Package.get(k),this.Facility,lotQty, this.SiteCnt,TotalUnitCnt, this.AvgTestTime, this.ShortName)));
                                     LotNo++;
-                                    TotalUnitCnt+=lotQty* this.SiteCnt;
+                                    TotalUnitCnt+=lotQty;
                                 } catch (InterruptedException ex) {
                                     Logger.getLogger(Product.class.getName()).log(Level.SEVERE, null, ex);
                                 }
@@ -239,6 +246,11 @@ public class Product {
 
     public List<Lot> getRandomLot() {
         return RandomLot;
+    }
+    
+
+    public StringProperty getTotalTestedUnits() {
+        return TotalTestedUnits;
     }
     
     private void readValue(List<String> list, Element element){

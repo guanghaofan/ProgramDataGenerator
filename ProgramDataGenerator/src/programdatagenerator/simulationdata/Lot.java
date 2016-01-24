@@ -7,6 +7,8 @@ package programdatagenerator.simulationdata;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -16,6 +18,7 @@ public class Lot {
     private LotHead LotHeadInfo;
     private List<SubLot> SubLots= new ArrayList();
     private boolean TestCompleted=false;
+    private StringProperty status = new SimpleStringProperty("Waiting for test"); 
 
     public Lot(LotHead LotHead) {
         this.LotHeadInfo=LotHead;
@@ -31,6 +34,12 @@ public class Lot {
 
     public List<SubLot> getSubLots() {
         return SubLots;
+    }
+    
+    
+
+    public StringProperty getStatus() {
+        return status;
     }
 
     public void setLotHeadInfo(LotHead LotHeadInfo) {

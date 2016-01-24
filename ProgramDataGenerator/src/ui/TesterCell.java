@@ -160,7 +160,7 @@ public class TesterCell extends Region{
                                 TesterStatusField.setText("Test Completed");
                                 button.setText("New Lot");
                                 
-                                if(Variables.simulationMode.equals(TestMode.realTime)){
+                                if(Variables.simulationMode.equals(TestMode.fast)){
                                     button.fire();
                                 }
                             }

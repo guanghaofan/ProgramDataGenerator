@@ -23,9 +23,12 @@ import javafx.scene.control.TreeView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
+import programdatagenerator.simulationdata.Lot;
 import programdatagenerator.simulationdata.Product;
 import programdatagenerator.simulationdata.Variables;
 import programdatagenerator.util.XMLRead;
@@ -44,20 +47,43 @@ public class ProgramDataGenerator extends Application {
     public final ChoiceBox tester= new ChoiceBox(FXCollections.observableArrayList("ALL","SAPPHIRE","VERIGY","SLT","HST","HONTECH"));
     public List<Product> Products= new ArrayList<>();
     public long TotalUnitCnt=0;
+    final TreeView summaryView= new TreeView();
     
     
     
     @Override
     public void start(Stage primaryStage) {
         Products= XMLRead.readProducts();
+        TreeItem rootItem= new TreeItem("Products");
+        summaryView.setRoot(rootItem);
         if(Products!=null){
             for(Product myProduct: Products){
-                TotalUnitCnt+= myProduct.getTotalUnitCnt();
+                TotalUnitCnt+= myProduct.getTotalUnitCnt()*myProduct.getSiteCnt();
+                TreeItem productItem = new TreeItem(myProduct.getProductName());
+                productItem.getChildren().add( new TreeItem("Total Qty: "+ myProduct.getTotalUnitCnt()*myProduct.getSiteCnt()));
+                for(Lot lot: myProduct.getRandomLot()){
+                    TreeItem lotItem = new TreeItem(lot.getLotHeadInfo().getLotID());
+                    productItem.getChildren().add(lotItem);
+                    
+                    lotItem.getChildren().add(new TreeItem("Lot Qty : " + lot.getLotHeadInfo().getLotQty()* lot.getLotHeadInfo().getSiteCnt()));
+                    TreeItem lotStatusItem = new TreeItem();
+                    lotStatusItem.valueProperty().bind(lot.getStatus());
+                    lotItem.getChildren().add(lotStatusItem);
+                }
 //                myProduct.printProductInfo();
 //                myProduct.printRandomLotHeadInfo();
+                rootItem.getChildren().add(productItem);
+                rootItem.getChildren().add( new TreeItem("Total Qty: " + TotalUnitCnt));
+                TreeItem totalTestedUnits= new TreeItem();
+                TreeItem unitCntItem= new TreeItem("TotalTestedUnits");
+                totalTestedUnits.valueProperty().bind(myProduct.getTotalTestedUnits());
+                rootItem.getChildren().add(unitCntItem);
+                unitCntItem.getChildren().add(totalTestedUnits);
+                
 
             }
         }
+        summaryView.setShowRoot(true);
         
         System.out.println("Simulation Mode: " + Variables.simulationMode.toString());
         System.out.println("Log Path is: " + Variables.logPath.getAbsolutePath());
@@ -93,9 +119,23 @@ public class ProgramDataGenerator extends Application {
        
 //        vbox.getChildren().addAll(ateTester);
 //        vbox.setPrefSize(200, 24*6);
-        ScrollPane root = new ScrollPane();
-        root.setPadding(new Insets(2,2,2,2));
-        root.setContent(vbox);
+        final TabPane root= new TabPane();
+        Tab tab1= new Tab("Tester status");
+        tab1.setClosable(false);
+        Tab tab2= new Tab("Summary");
+        tab2.setClosable(false);
+        root.getTabs().addAll(tab1,tab2);
+        
+        
+        
+        
+        
+        
+        ScrollPane testerPane = new ScrollPane();
+        tab1.setContent(testerPane);
+        tab2.setContent(summaryView);
+        testerPane.setPadding(new Insets(2,2,2,2));
+        testerPane.setContent(vbox);
         
         
         tester.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){

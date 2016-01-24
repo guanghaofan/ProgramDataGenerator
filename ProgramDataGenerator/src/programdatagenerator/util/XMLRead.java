@@ -206,6 +206,7 @@ public class XMLRead {
                        
                         lotID=lot.getLotHeadInfo().getLotID();
                         System.out.println("get next lot: " + lot.getLotHeadInfo().getLotID() + " for product " + CurrentProduct);
+                        lot.getStatus().setValue("Testing...");
                         
                         for(SubLot subLot:lot.getSubLots()){
                             if((!subLot.isTestCompleted())&&(!subLot.isInTesting())&& subLot.isReadForTesting()){
