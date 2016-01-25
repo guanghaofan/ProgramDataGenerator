@@ -242,7 +242,7 @@ public class DataWriter {
 
                                 endTime= (currentTime-subLot.getLastTestedTime())/5+ subLot.getLastTestedTime();
 
-                                unitData.addElement("end_test_time").setText(String.valueOf(endTime-2000));
+                                unitData.addElement("end_test_time").setText(String.valueOf(endTime-800-new Random().nextInt(100)));
 
                                 RandomResult result;
                                 if(subLot.isFreshLot())
